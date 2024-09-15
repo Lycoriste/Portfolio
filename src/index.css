@@ -1,3 +1,32 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+
+  @media screen and (orientation: portrait) {
+    .layout {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  @media screen and (orientation: landscape) {
+    .layout {
+      display: flex;
+      flex-direction: row;
+    }
+  }
+
+  html {
+      overflow: hidden;
+  }
+
+  body {
+      background-color: #131313;
+      width: 100vw;
+      height: 100vh;
+  }
+
+  ::-webkit-scrollbar {
+    display: hidden 
+  }
+    
