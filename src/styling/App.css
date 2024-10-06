@@ -42,7 +42,7 @@
     color: white;
     font-family: 'CutiveMono';
     padding-left: clamp(1px, 2vw, 18px);
-    font-size: clamp(2px, 4vw, 28px);
+    font-size: clamp(2px, 2vw, 48px);
 }
 
 .cursor-styling {
