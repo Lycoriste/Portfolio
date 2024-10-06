@@ -7,6 +7,14 @@
     scroll-timeline-name: --scrollTimeline;
 }
 
+.canvas-border {
+    border: 0.1vw solid white;
+}
+
+.frame-padding {
+    padding: clamp(20px, 4vw, 36px);
+}
+
 .header-styling {
     position: absolute;
     display: flex;
@@ -17,7 +25,6 @@
     font-size: clamp(2px, 5vw, 48px);
     user-select: none;
 }
-
 
 .tabs-styling {
     display: flex;
@@ -30,7 +37,7 @@
 
 .tabs-button-styling {
     display: flex;
-    width: 100%;
+    width: fit-content;
     height: fit-content;
     color: white;
     font-family: 'CutiveMono';
@@ -38,10 +45,13 @@
     font-size: clamp(2px, 4vw, 28px);
 }
 
-.canvas-border {
-    border: 0.1vw solid white;
-}
-
-.frame-padding {
-    padding: clamp(20px, 4vw, 36px);
+.cursor-styling {
+    position: absolute;
+    width: 0.9vw;
+    height: 0.9vw;
+    border: 0.1vw solid black;
+    border-radius: 50%;
+    background: white;
+    z-index: 9999;
+    pointer-events: none;
 }

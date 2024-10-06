@@ -1,7 +1,7 @@
 export const Contact = () => {
     return (
-        <a className="tabs-button-styling">
+        <button id='contact' className="tabs-button-styling">
             Contact
-        </a>
+        </button>
     );
 }

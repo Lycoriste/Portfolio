@@ -13,7 +13,7 @@ html {
 
 body {
   background-color: #131313;
-  /* cursor: none; */
+  cursor: none;
 }
 
 ::-webkit-scrollbar {
