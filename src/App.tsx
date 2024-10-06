@@ -5,7 +5,6 @@ import { Header } from './components/Header';
 import { About } from './components/About';
 import { Contact } from './components/Contact';
 import { Projects } from './components/Projects';
-import { Cursor } from './components/Cursor';
 import { CursorScript } from './utils/CursorScript';
 
 function App() {
@@ -15,7 +14,6 @@ function App() {
 
   return (
     <>
-      {/* <Cursor /> */}
       <Background backgroundNumber={2} />
       <main id="main" className="flex p-[2vw] w-full h-full absolute z-50">
         <section id="content-frame" className="relative w-full h-full canvas-border">
