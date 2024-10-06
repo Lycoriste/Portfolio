@@ -25,18 +25,37 @@ export const Background = ({ backgroundNumber }) => {
 
     const Lab = () => {
         const projectModel = useLoader(GLTFLoader, "/models/lab/scene.gltf");
+        const spotlightRef = useRef();
+        const spotlightTargetRef = useRef(new THREE.Object3D());
+
+        useEffect(() => {
+            if (spotlightRef.current) {
+                spotlightRef.current.target = spotlightTargetRef.current;
+            }
+        })
         useThree(({ camera }) => {
-            const target = new THREE.Vector3(0.5, 2.3, 0);
-            camera.position.set(0.5, 2.4, 6);
-            camera.lookAt(target);
+            const cameraTarget = new THREE.Vector3(0.345, 2.3, 0);
+            camera.position.set(0.345, 2.5, 6);
+            camera.lookAt(cameraTarget);
         })
 
         return (
             <>
-                <ambientLight intensity={0.1} color={'#B6FFEC'} />
+                <ambientLight intensity={0.2} color={'#B6FFEC'} />
                 <directionalLight position={[5, 10, 5]} intensity={0.7} color={'#B6FFEC'} />
-
-                <primitive object={projectModel.scene} material={projectModel.materials} dispose={null} />
+                <pointLight position={[0.3, 1.4, 0.4]} intensity={3} distance={3.5} decay={1} color={'#F2E3BB'} />
+                <spotLight
+                    ref={spotlightRef}
+                    position={[0.3, 1.4, 0.4]}
+                    intensity={10}
+                    distance={0}
+                    castShadow={true}
+                    angle={Math.PI / 3}
+                    penumbra={1}
+                    decay={-0.01}
+                    color={'#F2E3BB'}
+                />
+                <primitive object={spotlightTargetRef.current} position={[0.5, -5, 6]} />
                 {/* Postprocessing Effects */}
                 <EffectComposer>
                     <Noise
@@ -52,9 +71,10 @@ export const Background = ({ backgroundNumber }) => {
                     <Bloom
                         luminanceThreshold={0}
                         luminanceSmoothing={0.5}
-                        intensity={1.5}
+                        intensity={2}
                     />
                 </EffectComposer>
+                <primitive object={projectModel.scene} material={projectModel.materials} dispose={null} />
             </>
         );
     }
@@ -66,7 +86,7 @@ export const Background = ({ backgroundNumber }) => {
     }
 
     background = (
-        <Canvas camera={{ fov: 75, near: 0.2, far: 10000, position: [10, 0, 0] }} >
+        <Canvas camera={{ fov: 75, near: 0.2, far: 10000, position: [10, 0, 0] }}>
             {backgroundMap[backgroundNumber]}
         </Canvas>
     );

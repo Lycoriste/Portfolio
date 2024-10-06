@@ -1,7 +1,7 @@
-export const About = () => {
+export const Contact = () => {
     return (
         <a className="tabs-button-styling">
-            About
+            Contact
         </a>
     );
 }
