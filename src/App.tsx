@@ -15,7 +15,7 @@ function App() {
 
   return (
     <>
-      <Cursor />
+      {/* <Cursor /> */}
       <Background backgroundNumber={2} />
       <main id="main" className="flex p-[2vw] w-full h-full absolute z-50">
         <section id="content-frame" className="relative w-full h-full canvas-border">

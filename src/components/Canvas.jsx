@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useMemo } from "react";
+import React, { useEffect, useRef, useMemo, Suspense } from "react";
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber"
 import { OrbitControls, useFBX, useGLTF, useTexture } from "@react-three/drei";
 import { EffectComposer, Noise, HueSaturation, ColorAverage, Vignette, Bloom } from '@react-three/postprocessing'
@@ -67,32 +67,34 @@ export const Background = ({ backgroundNumber }) => {
 
         return (
             <>
-                {lighting}
-                <primitive object={spotlightTargetRef.current} position={[0.5, -5, 6]} />
-                {/* Postprocessing Effects */}
-                <EffectComposer
-                    disableNormalPass={true}
-                    autoClear={true}
-                    multisampling={0}
-                    resolutionScale={0.2}
-                >
-                    <Noise
-                        premultiply
-                        blendFunction={BlendFunction.ADD}
-                    />
-                    <Vignette
-                        offset={0.15}
-                        darkness={0.83}
-                        eskil={false}
-                        blendFunction={BlendFunction.NORMAL}
-                    />
-                    <Bloom
-                        luminanceThreshold={0}
-                        luminanceSmoothing={0.5}
-                        intensity={2}
-                    />
-                </EffectComposer >
-                <primitive object={futureGadgetLab.scene} material={futureGadgetLab.materials} dispose={null} />
+                <Suspense fallback={<Sphere />}>
+                    {lighting}
+                    <primitive object={spotlightTargetRef.current} position={[0.5, -5, 6]} />
+                    {/* Postprocessing Effects */}
+                    <EffectComposer
+                        disableNormalPass={true}
+                        autoClear={false}
+                        multisampling={0}
+                        resolutionScale={0.2}
+                    >
+                        <Noise
+                            premultiply
+                            blendFunction={BlendFunction.ADD}
+                        />
+                        <Vignette
+                            offset={0.15}
+                            darkness={0.83}
+                            eskil={false}
+                            blendFunction={BlendFunction.NORMAL}
+                        />
+                        <Bloom
+                            luminanceThreshold={0}
+                            luminanceSmoothing={0.5}
+                            intensity={2}
+                        />
+                    </EffectComposer >
+                    <primitive object={futureGadgetLab.scene} material={futureGadgetLab.materials} dispose={null} />
+                </Suspense>
             </>
         );
     }
@@ -104,7 +106,7 @@ export const Background = ({ backgroundNumber }) => {
     }
 
     background = (
-        <Canvas camera={{ fov: 75, near: 1.2, far: 10, position: [0, 1, 0] }} >
+        <Canvas camera={{ fov: 75, near: 1.2, far: 20, position: [0, 1, 0] }} >
             {backgroundMap[backgroundNumber]}
         </Canvas>
     );
