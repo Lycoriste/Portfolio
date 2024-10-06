@@ -8,7 +8,7 @@ export const Contact: React.FC<ContactProps> = ({ current, set }) => {
     return (
         <button
             id='contact'
-            className="tabs-button-styling"
+            className={`tabs-button-styling ${current == 'Contact' ? 'pointer-events-none' : ''}`}
             onClick={() => {
                 if (current !== 'Contact') {
                     set('Contact');
@@ -17,7 +17,7 @@ export const Contact: React.FC<ContactProps> = ({ current, set }) => {
                     console.log('Invalid');
                 }
             }}>
-            Contact
+            {current == 'Contact' ? '►' : 'Contact'}
         </button>
     );
 }

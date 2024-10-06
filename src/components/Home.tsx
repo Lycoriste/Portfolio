@@ -7,7 +7,7 @@ export const Home: React.FC<HomeProps> = ({ current, set }) => {
     return (
         <button
             id='home'
-            className="tabs-button-styling"
+            className={`tabs-button-styling ${current == 'Home' ? 'pointer-events-none' : ''}`}
             onClick={() => {
                 if (current !== 'Home') {
                     set('Home');
@@ -16,7 +16,7 @@ export const Home: React.FC<HomeProps> = ({ current, set }) => {
                     console.log('Invalid');
                 }
             }}>
-            Home
+            {current == 'Home' ? '►' : 'Home'}
         </button>
     );
 }

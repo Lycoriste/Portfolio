@@ -7,7 +7,7 @@ export const About: React.FC<AboutProps> = ({ current, set }) => {
     return (
         <button
             id='about'
-            className="tabs-button-styling"
+            className={`tabs-button-styling ${current == 'About' ? 'pointer-events-none' : ''}`}
             onClick={() => {
                 if (current !== 'About') {
                     set('About');
@@ -16,7 +16,7 @@ export const About: React.FC<AboutProps> = ({ current, set }) => {
                     console.log('Invalid');
                 }
             }}>
-            About
+            {current == 'About' ? '►' : 'About'}
         </button>
     );
 }

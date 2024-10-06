@@ -10,7 +10,6 @@ import { CursorScript } from './utils/CursorScript';
 
 function App() {
   const [currentSection, setCurrentSection] = useState('Home');
-
   CursorScript();
 
   return (
