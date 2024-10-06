@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useMemo } from "react";
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber"
 import { OrbitControls, useFBX, useGLTF, useTexture } from "@react-three/drei";
 import { EffectComposer, Noise, HueSaturation, ColorAverage, Vignette, Bloom } from '@react-three/postprocessing'
@@ -9,12 +9,18 @@ import * as THREE from 'three';
 
 export const Background = ({ backgroundNumber }) => {
     let background;
+    const futureGadgetLab = useLoader(GLTFLoader, "/models/lab/scene.gltf");
 
     const Sphere = () => {
         const sphereRef = useRef();
-        useFrame(() => {
+        useFrame((state, delta) => {
             if (sphereRef.current)
-                sphereRef.current.rotation.y += 0.001;
+                sphereRef.current.rotation.y += delta * 0.3;
+        });
+        useThree(({ camera }) => {
+            const cameraTarget = new THREE.Vector3(0, 0, 0);
+            camera.position.set(0, 1, 0);
+            camera.lookAt(cameraTarget);
         });
 
         return (
@@ -24,16 +30,6 @@ export const Background = ({ backgroundNumber }) => {
     }
 
     const Lab = () => {
-        const projectModel = useLoader(GLTFLoader, "/models/lab/scene.gltf");
-
-        projectModel.scene.traverse((child) => {
-            if (child.isMesh) {
-                child.castShadow = true;
-                child.receiveShadow = true;
-                child.material.shadowSide = THREE.DoubleSide;
-            }
-        });
-
         const spotlightRef = useRef();
         const spotlightTargetRef = useRef(new THREE.Object3D());
 
@@ -48,25 +44,38 @@ export const Background = ({ backgroundNumber }) => {
             camera.lookAt(cameraTarget);
         });
 
+        const lighting = useMemo(() => {
+            return (
+                <>
+                    <ambientLight intensity={0.2} color={'#B6FFEC'} />
+                    <directionalLight position={[5, 10, 5]} intensity={0.7} color={'#B6FFEC'} />
+                    <pointLight position={[0.3, 1.4, 0.4]} intensity={3} distance={3.5} decay={1} color={'#F2E3BB'} />
+                    <spotLight
+                        ref={spotlightRef}
+                        position={[0.3, 1.4, 0.4]}
+                        intensity={10}
+                        distance={0}
+                        castShadow={true}
+                        angle={Math.PI / 3}
+                        penumbra={1}
+                        decay={0.01}
+                        color={'#F2E3BB'}
+                    />
+                </>
+            );
+        }, [])
+
         return (
             <>
-                <ambientLight intensity={0.2} color={'#B6FFEC'} />
-                <directionalLight position={[5, 10, 5]} intensity={0.7} color={'#B6FFEC'} />
-                <pointLight position={[0.3, 1.4, 0.4]} intensity={3} distance={3.5} decay={1} color={'#F2E3BB'} />
-                <spotLight
-                    ref={spotlightRef}
-                    position={[0.3, 1.4, 0.4]}
-                    intensity={10}
-                    distance={0}
-                    castShadow={true}
-                    angle={Math.PI / 3}
-                    penumbra={1}
-                    decay={0.01}
-                    color={'#F2E3BB'}
-                />
+                {lighting}
                 <primitive object={spotlightTargetRef.current} position={[0.5, -5, 6]} />
                 {/* Postprocessing Effects */}
-                <EffectComposer>
+                <EffectComposer
+                    disableNormalPass={true}
+                    autoClear={true}
+                    multisampling={0}
+                    resolutionScale={0.2}
+                >
                     <Noise
                         premultiply
                         blendFunction={BlendFunction.ADD}
@@ -82,8 +91,8 @@ export const Background = ({ backgroundNumber }) => {
                         luminanceSmoothing={0.5}
                         intensity={2}
                     />
-                </EffectComposer>
-                <primitive object={projectModel.scene} material={projectModel.materials} dispose={null} />
+                </EffectComposer >
+                <primitive object={futureGadgetLab.scene} material={futureGadgetLab.materials} dispose={null} />
             </>
         );
     }
@@ -95,13 +104,13 @@ export const Background = ({ backgroundNumber }) => {
     }
 
     background = (
-        <Canvas camera={{ fov: 75, near: 0.2, far: 10000, position: [0, 1, 0] }} >
+        <Canvas camera={{ fov: 75, near: 1.2, far: 10, position: [0, 1, 0] }} >
             {backgroundMap[backgroundNumber]}
         </Canvas>
     );
 
     return (
-        <div className='flex p-[2vw] w-full h-full absolute -z-50'>
+        <div className='flex p-[2vw] w-full h-full absolute -z-50' loading='lazy'>
             {background}
         </div>
     )

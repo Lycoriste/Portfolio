@@ -52,6 +52,6 @@
     border: 0.1vw solid black;
     border-radius: 50%;
     background: white;
-    z-index: 9999;
     pointer-events: none;
+    z-index: 9999;
 }
