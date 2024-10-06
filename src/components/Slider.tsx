@@ -1,6 +1,0 @@
-export const Slider = () => {
-    return (
-        <>
-        </>
-    )
-}

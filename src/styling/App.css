@@ -1,0 +1,28 @@
+.scroller {
+    scroll-snap-type: y mandatory;
+    height: 100%;
+    overflow-y: scroll;
+    position: relative;
+    z-index: 1;
+    scroll-timeline-name: --scrollTimeline;
+}
+
+.header-styling {
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    color: white;
+    font-family: 'CutiveMono';
+    margin-left: clamp(1px, 2vw, 18px);
+    font-size: clamp(2px, 8vw, 48px);
+    user-select: none;
+}
+
+.canvas-border {
+    border-width: 0.1vw;
+    border-color: white;
+}
+
+.frame-padding {
+    padding: clamp(20px, 4vw, 36px);
+}
