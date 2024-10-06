@@ -1,4 +1,4 @@
-import { useState } from 'react'
+// import { useState } from 'react'
 import './styling/App.css'
 import { Background } from './components/Canvas'
 import { Header } from './components/Header';
@@ -7,8 +7,8 @@ import { Contact } from './components/Contact';
 import { Projects } from './components/Projects';
 
 function App() {
-  const screenWidth = screen.width;
-  const screenHeight = screen.height;
+  // const screenWidth = screen.width;
+  // const screenHeight = screen.height;
 
   return (
     <>
