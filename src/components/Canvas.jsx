@@ -5,6 +5,7 @@ import { EffectComposer, Noise, HueSaturation, ColorAverage, Vignette, Bloom } f
 import { BlendFunction } from "postprocessing";
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
+import gsap from "gsap";
 import * as THREE from 'three';
 
 export const Background = ({ backgroundNumber, current }) => {
@@ -32,7 +33,7 @@ export const Background = ({ backgroundNumber, current }) => {
     const Lab = () => {
         // 'Tab' : [CameraPosition, CameraLookAt]
         const cameraLocations = {
-            'Home': [new THREE.Vector3(0.345, 2.5, 5.5), new THREE.Vector3(0.345, 2.5, 0)],
+            'Home': [new THREE.Vector3(0.345, 2.5, 5.5), new THREE.Vector3(0.345, 2.5, -10)],
             'About': [new THREE.Vector3(0.05, 1.8, -0.5), new THREE.Vector3(1, 1.8, -10)]
         };
         let cameraTarget = new THREE.Vector3();
@@ -47,10 +48,20 @@ export const Background = ({ backgroundNumber, current }) => {
         useThree(({ camera }) => {
             try {
                 cameraTarget = cameraLocations[current][1];
-                camera.position.copy(cameraLocations[current][0]);
-                camera.lookAt(cameraTarget);
-            } catch {
-                console.log('Failed to get location, rendering fallback.')
+                // camera.position.copy(cameraLocations[current][0]);
+
+                gsap.to(camera.position, {
+                    x: cameraLocations[current][0].x,
+                    y: cameraLocations[current][0].y,
+                    z: cameraLocations[current][0].z,
+                    duration: 1,
+                    onUpdate() {
+                        camera.lookAt(cameraTarget);
+                    }
+                });
+            } catch (error) {
+                console.log('Failed to get location, rendering fallback.');
+                console.log('Error: ' + error);
                 cameraTarget = cameraLocations['Home'][1];
                 camera.position.copy(cameraLocations['Home'][0]);
                 camera.lookAt(cameraTarget);
