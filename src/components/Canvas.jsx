@@ -147,12 +147,18 @@ export const Background = ({ backgroundNumber, current }) => {
         1: <Sphere />,
         2: <Lab />
     }
-
-    background = (
+    try {
+        background = (
+            <Canvas camera={{ fov: 75, near: 0.001, far: 20, position: [0, 1, 0] }} >
+                {backgroundMap[backgroundNumber]}
+            </Canvas>
+        );
+    } catch (error) {
+        console.log("An error has occured with loading three.js background.\nError: " + error);
         <Canvas camera={{ fov: 75, near: 0.001, far: 20, position: [0, 1, 0] }} >
-            {backgroundMap[backgroundNumber]}
+            <Sphere />
         </Canvas>
-    );
+    }
 
     return (
         <div className='flex page-padding w-full h-full absolute -z-50' loading='lazy'>

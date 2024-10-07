@@ -36,7 +36,10 @@
     background-color: rgba(0, 0, 0, 0.7);
     user-select: none;
     overflow: hidden;
-    transition: 500ms;
+    -webkit-transition: width 0.5s ease-in-out;
+    -moz-transition: width 0.5s ease-in-out;
+    -o-transition: width 0.5s ease-in-out;
+    transition: width 0.5s ease-in-out;
 }
 
 .header-styling {
@@ -72,6 +75,8 @@
     z-index: 9999;
 }
 
-@keyframes selected {
-    
+@media (min-width: 768px) {
+    .header-styling {
+        white-space: nowrap;
+    }
 }

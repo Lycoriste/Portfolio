@@ -19,7 +19,7 @@ function App() {
       <Exit current={currentSection} set={setCurrentSection} />
       <main id="main" className="flex page-padding w-full h-full absolute z-50">
         <section id="content-frame" className="relative w-full h-full canvas-border">
-          <section id="tabs" className="tabs-styling">
+          <section id="tabs" className={`tabs-styling ${currentSection == 'Home' ? '' : 'w-0'}`}>
             <Header />
             <Home current={currentSection} set={setCurrentSection} />
             <About current={currentSection} set={setCurrentSection} />
@@ -27,7 +27,7 @@ function App() {
             <Contact current={currentSection} set={setCurrentSection} />
           </section>
         </section>
-      </main>
+      </main >
     </>
   )
 }
