@@ -33,7 +33,7 @@ export const Background = ({ backgroundNumber, current }) => {
         // 'Tab' : [CameraPosition, CameraLookAt]
         const cameraLocations = {
             'Home': [new THREE.Vector3(0.345, 2.5, 5.5), new THREE.Vector3(0.345, 2.5, 0)],
-            'About': [new THREE.Vector3(0, 1.8, -0.2), new THREE.Vector3(0, 1.8, -0.2)]
+            'About': [new THREE.Vector3(0.05, 1.8, -0.5), new THREE.Vector3(1, 1.8, -10)]
         };
         let cameraTarget = new THREE.Vector3();
         const spotlightRef = useRef();
@@ -125,7 +125,7 @@ export const Background = ({ backgroundNumber, current }) => {
     );
 
     return (
-        <div className='flex p-[2vw] w-full h-full absolute -z-50' loading='lazy'>
+        <div className='flex page-padding w-full h-full absolute -z-50' loading='lazy'>
             {background}
         </div>
     )

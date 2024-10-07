@@ -15,7 +15,7 @@ function App() {
   return (
     <>
       <Background backgroundNumber={2} current={currentSection} />
-      <main id="main" className="flex p-[2vw] w-full h-full absolute z-50">
+      <main id="main" className="flex page-padding w-full h-full absolute z-50">
         <section id="content-frame" className="relative w-full h-full canvas-border">
           <section id="tabs" className="tabs-styling">
             <Header />

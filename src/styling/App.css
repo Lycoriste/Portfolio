@@ -8,11 +8,11 @@
 }
 
 .canvas-border {
-    border: 0.1vw solid white;
+    border: 1px solid gray;
 }
 
-.frame-padding {
-    padding: clamp(20px, 4vw, 36px);
+.page-padding {
+    padding: clamp(2px, 7vw, 40px);
 }
 
 .tabs-styling {
