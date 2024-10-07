@@ -11,7 +11,6 @@ export const About: React.FC<AboutProps> = ({ current, set }) => {
             onClick={() => {
                 if (current !== 'About') {
                     set('About');
-                    console.log(current);
                 } else {
                     console.log('Invalid');
                 }

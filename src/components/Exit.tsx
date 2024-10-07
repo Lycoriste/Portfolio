@@ -12,7 +12,6 @@ export const Exit: React.FC<ContactProps> = ({ current, set }) => {
             onClick={() => {
                 if (current !== 'Home') {
                     set('Home');
-                    console.log(current);
                 } else {
                     console.log('Invalid');
                 }

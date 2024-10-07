@@ -12,7 +12,6 @@ export const Contact: React.FC<ContactProps> = ({ current, set }) => {
             onClick={() => {
                 if (current !== 'Contact') {
                     set('Contact');
-                    console.log(current);
                 } else {
                     console.log('Invalid');
                 }
