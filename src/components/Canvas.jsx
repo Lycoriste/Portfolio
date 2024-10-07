@@ -7,7 +7,7 @@ import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
 import * as THREE from 'three';
 
-export const Background = ({ backgroundNumber }) => {
+export const Background = ({ backgroundNumber, current }) => {
     let background;
     const futureGadgetLab = useLoader(GLTFLoader, "/models/lab/scene.gltf");
 
@@ -30,6 +30,12 @@ export const Background = ({ backgroundNumber }) => {
     }
 
     const Lab = () => {
+        // 'Tab' : [CameraPosition, CameraLookAt]
+        const cameraLocations = {
+            'Home': [new THREE.Vector3(0.345, 2.5, 5.5), new THREE.Vector3(0.345, 2.5, 0)],
+            'About': [new THREE.Vector3(0, 1.8, -0.2), new THREE.Vector3(0, 1.8, -0.2)]
+        };
+        let cameraTarget = new THREE.Vector3();
         const spotlightRef = useRef();
         const spotlightTargetRef = useRef(new THREE.Object3D());
 
@@ -39,9 +45,16 @@ export const Background = ({ backgroundNumber }) => {
             }
         }, []);
         useThree(({ camera }) => {
-            const cameraTarget = new THREE.Vector3(0.345, 2.3, 0);
-            camera.position.set(0.345, 2.5, 5.5);
-            camera.lookAt(cameraTarget);
+            try {
+                cameraTarget = cameraLocations[current][1];
+                camera.position.copy(cameraLocations[current][0]);
+                camera.lookAt(cameraTarget);
+            } catch {
+                console.log('Failed to get location, rendering fallback.')
+                cameraTarget = cameraLocations['Home'][1];
+                camera.position.copy(cameraLocations['Home'][0]);
+                camera.lookAt(cameraTarget);
+            }
         });
 
         const lighting = useMemo(() => {
@@ -106,7 +119,7 @@ export const Background = ({ backgroundNumber }) => {
     }
 
     background = (
-        <Canvas camera={{ fov: 75, near: 1.2, far: 20, position: [0, 1, 0] }} >
+        <Canvas camera={{ fov: 75, near: 0.001, far: 20, position: [0, 1, 0] }} >
             {backgroundMap[backgroundNumber]}
         </Canvas>
     );
