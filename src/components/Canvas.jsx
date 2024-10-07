@@ -79,6 +79,8 @@ export const Background = ({ backgroundNumber, current }) => {
             } catch (error) {
                 console.log('Failed to get location, rendering fallback.');
                 console.log('Error: ' + error);
+                gsap.killTweensOf(camera.position);
+                gsap.killTweensOf(cameraTarget);
                 cameraTarget = cameraLocations['Home'][1];
                 camera.position.copy(cameraLocations['Home'][0]);
                 camera.lookAt(cameraTarget);
