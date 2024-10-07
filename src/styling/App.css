@@ -34,6 +34,11 @@
     -moz-transition: width 0.5s ease-in-out;
     -o-transition: width 0.5s ease-in-out;
     transition: width 0.5s ease-in-out;
+    transition: 200ms;
+}
+
+.exit-styling:hover {
+    filter: brightness(0.5);
 }
 
 .tabs-styling {
@@ -70,7 +75,12 @@
     font-family: 'CutiveMono';
     margin-left: clamp(1px, 2vw, 18px);
     font-size: clamp(2px, 4vw, 36px);
+    transition: 200ms;
     user-select: none;
+}
+
+.tabs-button-styling:hover {
+    filter: brightness(0.5);
 }
 
 .cursor-styling {
