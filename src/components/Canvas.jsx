@@ -7,6 +7,7 @@ import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
 import gsap from "gsap";
 import * as THREE from 'three';
+import { cameraNear } from "three/webgpu";
 
 export const Background = ({ backgroundNumber, current }) => {
     let background;
@@ -33,10 +34,11 @@ export const Background = ({ backgroundNumber, current }) => {
     const Lab = () => {
         // 'Tab' : [CameraPosition, CameraLookAt]
         const cameraLocations = {
-            'Home': [new THREE.Vector3(0.345, 2.5, 5.5), new THREE.Vector3(0.345, 2.5, -10)],
+            'Home': [new THREE.Vector3(0.345, 2.5, 5.5), new THREE.Vector3(0.345, 1.8, -10)],
             'About': [new THREE.Vector3(0.05, 1.8, -0.5), new THREE.Vector3(1, 1.8, -10)]
         };
-        let cameraTarget = new THREE.Vector3();
+        let cameraTarget = new THREE.Vector3(0.345, 1.8, -10);
+
         const spotlightRef = useRef();
         const spotlightTargetRef = useRef(new THREE.Object3D());
 
@@ -47,18 +49,33 @@ export const Background = ({ backgroundNumber, current }) => {
         }, []);
         useThree(({ camera }) => {
             try {
-                cameraTarget = cameraLocations[current][1];
-                // camera.position.copy(cameraLocations[current][0]);
+                const newCameraTarget = cameraLocations[current][1];
+
+                gsap.to(cameraTarget, {
+                    x: newCameraTarget.x,
+                    y: newCameraTarget.y,
+                    z: newCameraTarget.z,
+                    duration: 2,
+                    onUpdate() {
+                        camera.lookAt(cameraTarget)
+                    }
+                });
 
                 gsap.to(camera.position, {
                     x: cameraLocations[current][0].x,
                     y: cameraLocations[current][0].y,
                     z: cameraLocations[current][0].z,
-                    duration: 1,
-                    onUpdate() {
-                        camera.lookAt(cameraTarget);
-                    }
+                    duration: 2,
                 });
+                // gsap.to(cameraTarget, {
+                //     x: cameraLocations[current][1].x,
+                //     y: cameraLocations[current][1].y,
+                //     z: cameraLocations[current][1].z,
+                //     duration: 100,
+                //     onUpdate() {
+                //         camera.lookAt(cameraTarget);
+                //     }
+                // });
             } catch (error) {
                 console.log('Failed to get location, rendering fallback.');
                 console.log('Error: ' + error);

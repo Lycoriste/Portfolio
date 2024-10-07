@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './styling/App.css'
 import { Background } from './components/Canvas'
+import { Exit } from './components/Exit';
 import { Header } from './components/Header';
 import { Home } from './components/Home';
 import { About } from './components/About';
@@ -15,6 +16,7 @@ function App() {
   return (
     <>
       <Background backgroundNumber={2} current={currentSection} />
+      <Exit current={currentSection} set={setCurrentSection} />
       <main id="main" className="flex page-padding w-full h-full absolute z-50">
         <section id="content-frame" className="relative w-full h-full canvas-border">
           <section id="tabs" className="tabs-styling">

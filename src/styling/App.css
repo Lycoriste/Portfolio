@@ -15,6 +15,17 @@
     padding: clamp(2px, 7vw, 40px);
 }
 
+.exit-styling {
+    position: absolute;
+    color: white;
+    bottom: 0;
+    z-index: 100;
+    font-size: clamp(2px, 4vw, 26px);
+    font-family: 'CutiveMono';
+    width: fit-content;
+    margin-left: clamp(2px, 7vw, 40px);
+}
+
 .tabs-styling {
     position: relative;
     display: flex;
@@ -35,7 +46,7 @@
     color: white;
     font-family: 'CutiveMono';
     padding-left: clamp(1px, 2vw, 18px);
-    font-size: clamp(2px, 5vw, 48px);
+    font-size: clamp(2px, 3vw, 64px);
     user-select: none;
 }
 
@@ -46,7 +57,7 @@
     color: white;
     font-family: 'CutiveMono';
     margin-left: clamp(1px, 2vw, 18px);
-    font-size: clamp(2px, 4vw, 36px);
+    font-size: clamp(2px, 3vw, 36px);
     user-select: none;
 }
 
