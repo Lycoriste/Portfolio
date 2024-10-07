@@ -15,15 +15,25 @@
     padding: clamp(2px, 7vw, 40px);
 }
 
-.exit-styling {
+.exit-wrapper {
+    display: inline-block;
     position: absolute;
-    color: white;
     bottom: 0;
     z-index: 100;
+    margin-left: clamp(2px, 7vw, 40px);
+    white-space: nowrap;
+}
+
+.exit-styling {
+    display: inline-block;
+    color: white;
     font-size: clamp(2px, 4vw, 26px);
     font-family: 'CutiveMono';
-    width: fit-content;
-    margin-left: clamp(2px, 7vw, 40px);
+    overflow: hidden;
+    -webkit-transition: width 0.5s ease-in-out;
+    -moz-transition: width 0.5s ease-in-out;
+    -o-transition: width 0.5s ease-in-out;
+    transition: width 0.5s ease-in-out;
 }
 
 .tabs-styling {

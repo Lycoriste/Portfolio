@@ -6,17 +6,19 @@ type ContactProps = {
 
 export const Exit: React.FC<ContactProps> = ({ current, set }) => {
     return (
-        <button
-            id='exit'
-            className={`${current == 'Home' ? 'hidden' : 'flex'} exit-styling`}
-            onClick={() => {
-                if (current !== 'Home') {
-                    set('Home');
-                } else {
-                    console.log('Invalid');
-                }
-            }}>
-            ← Return to home
-        </button>
+        <div className={`exit-wrapper`}>
+            <button
+                id='exit'
+                className={`${current == 'Home' ? 'w-0' : 'w-[100%]'} exit-styling`}
+                onClick={() => {
+                    if (current !== 'Home') {
+                        set('Home');
+                    } else {
+                        console.log('Invalid');
+                    }
+                }}>
+                ← Return to home
+            </button>
+        </div>
     );
 }
