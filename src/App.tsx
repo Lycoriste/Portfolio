@@ -8,14 +8,17 @@ import { About } from './components/About';
 import { Contact } from './components/Contact';
 import { Projects } from './components/Projects';
 import { CursorScript } from './utils/CursorScript';
+import { BGSelector } from './components/BGSelector';
 
 function App() {
+  const [currentBackground, setBackground] = useState(2);
   const [currentSection, setCurrentSection] = useState('Home');
   CursorScript();
 
   return (
     <>
-      <Background backgroundNumber={2} current={currentSection} />
+      <Background backgroundNumber={currentBackground} current={currentSection} />
+      <BGSelector current={currentBackground} set={setBackground} />
       <Exit current={currentSection} set={setCurrentSection} />
       <main id="main" className="flex page-padding w-full h-full absolute z-50">
         <section id="content-frame" className="relative w-full h-full canvas-border">

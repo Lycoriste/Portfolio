@@ -94,6 +94,36 @@
     z-index: 9999;
 }
 
+.background-button-selection {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    width: clamp(2px, 7vw, 40px);
+    height: calc(100% - clamp(2px, 7vw, 40px) * 2);
+    margin-top: clamp(2px, 7vw, 40px);
+    z-index: 100;
+}
+
+.background-button {
+    display: flex;
+    border: 1px solid white;
+    width: 50%;
+    aspect-ratio: 1/1;
+    margin: 1rem;
+    padding: 10%;
+    background-color:
+}
+
+.background-button-label {
+    display: flex;
+    color: white;
+    font-family: 'CutiveMono';
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+}
+
 @media (min-width: 768px) {
     .header-styling {
         white-space: nowrap;
