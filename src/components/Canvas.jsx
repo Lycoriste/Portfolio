@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useMemo, Suspense } from "react";
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber"
 import { OrbitControls, useFBX, useGLTF, useTexture } from "@react-three/drei";
-import { EffectComposer, Noise, HueSaturation, ColorAverage, Vignette, Bloom } from '@react-three/postprocessing'
-import { BlendFunction } from "postprocessing";
+import { EffectComposer, Noise, Vignette, Bloom } from '@react-three/postprocessing'
+import { BlendFunction, EffectComposer as FXC, EffectPass, RenderPass, NoiseEffect, VignetteEffect, BloomEffect } from "postprocessing";
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
 import gsap from "gsap";
+import { Stats } from "@react-three/drei";
 import * as THREE from 'three';
-import { cameraNear } from "three/webgpu";
+import { bloom } from "three/webgpu";
 
 export const Background = ({ backgroundNumber, current }) => {
     let background;
@@ -26,8 +27,7 @@ export const Background = ({ backgroundNumber, current }) => {
         });
 
         return (
-            <mesh ref={sphereRef} geometry={new THREE.SphereGeometry(6, 8, 8)} material={new THREE.MeshBasicMaterial({ wireframe: true })} position={new THREE.Vector3(0, -5, 0)}>
-            </mesh>
+            <mesh ref={sphereRef} geometry={new THREE.SphereGeometry(6, 8, 8)} material={new THREE.MeshBasicMaterial({ wireframe: true })} position={new THREE.Vector3(0, -5, 0)} />
         );
     }
 
@@ -43,9 +43,8 @@ export const Background = ({ backgroundNumber, current }) => {
         const spotlightTargetRef = useRef(new THREE.Object3D());
 
         useEffect(() => {
-            if (spotlightRef.current) {
+            if (spotlightRef.current)
                 spotlightRef.current.target = spotlightTargetRef.current;
-            }
         }, []);
         useThree(({ camera }) => {
             try {
@@ -67,15 +66,6 @@ export const Background = ({ backgroundNumber, current }) => {
                     z: cameraLocations[current][0].z,
                     duration: 2,
                 });
-                // gsap.to(cameraTarget, {
-                //     x: cameraLocations[current][1].x,
-                //     y: cameraLocations[current][1].y,
-                //     z: cameraLocations[current][1].z,
-                //     duration: 100,
-                //     onUpdate() {
-                //         camera.lookAt(cameraTarget);
-                //     }
-                // });
             } catch (error) {
                 console.log('Failed to get location, rendering fallback.');
                 console.log('Error: ' + error);
@@ -108,13 +98,49 @@ export const Background = ({ backgroundNumber, current }) => {
             );
         }, [])
 
+        const PostProcessingEffects = () => {
+            const { scene, camera, gl } = useThree();
+            const composer = useMemo(() => {
+                const composer = new FXC(gl,
+                    {
+                        disableNormalPass: true,
+                        autoClear: false,
+                        multisampling: 0,
+                        resolutionScale: 0.1,
+                    });
+
+                // Postprocessing Effects
+                const bloomEffect = new BloomEffect({ luminanceThreshold: 0.05, luminanceSmoothing: 0.5, intensity: 3.5 });
+                const vignetteEffect = new VignetteEffect({ offset: 0.15, darkness: 0.83, eskil: false, blendFunction: BlendFunction.NORMAL });
+                const noiseEffect = new NoiseEffect({ premultiply: true, blendFunction: BlendFunction.ADD });
+
+                // Instantiate EffectPass
+                const effectPass = new EffectPass(camera, noiseEffect, vignetteEffect, bloomEffect);
+                effectPass.renderToScreen = true;
+
+                // Add passes
+                composer.addPass(new RenderPass(scene, camera));
+                composer.addPass(effectPass);
+
+                return composer;
+            }, []);
+
+            useEffect(() => {
+                return () => { composer.dispose() }
+            }, [composer]);
+            useFrame((state, delta) => {
+                composer.render(delta);
+            }, 1);
+            return null;
+        };
+
         return (
             <>
                 <Suspense fallback={<Sphere />}>
                     {lighting}
                     <primitive object={spotlightTargetRef.current} position={[0.5, -5, 6]} />
                     {/* Postprocessing Effects */}
-                    <EffectComposer
+                    {/* <EffectComposer
                         disableNormalPass={true}
                         autoClear={false}
                         multisampling={0}
@@ -131,13 +157,15 @@ export const Background = ({ backgroundNumber, current }) => {
                             blendFunction={BlendFunction.NORMAL}
                         />
                         <Bloom
-                            luminanceThreshold={0}
+                            luminanceThreshold={0.05}
                             luminanceSmoothing={0.5}
                             intensity={2}
                         />
-                    </EffectComposer >
+                    </EffectComposer> */}
                     <primitive object={futureGadgetLab.scene} material={futureGadgetLab.materials} dispose={null} />
+                    <PostProcessingEffects />
                 </Suspense>
+                <Stats />
             </>
         );
     }
