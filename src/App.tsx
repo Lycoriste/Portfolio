@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './styling/App.css'
 import { Background } from './components/Canvas'
 import { Exit } from './components/Exit';
@@ -13,6 +13,7 @@ import { BGSelector } from './components/BGSelector';
 function App() {
   const [currentBackground, setBackground] = useState(2);
   const [currentSection, setCurrentSection] = useState('Home');
+
   CursorScript();
 
   return (
