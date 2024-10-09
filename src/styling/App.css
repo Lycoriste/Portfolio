@@ -111,10 +111,10 @@
     display: flex;
     border: 1px solid white;
     width: 50%;
+    -webkit-aspect-ratio: 1 / 1;
     aspect-ratio: 1/1;
     margin: 1rem;
     padding: 10%;
-    background-color:
 }
 
 .background-button-label {
