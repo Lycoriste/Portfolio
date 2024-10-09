@@ -8,15 +8,15 @@ export const BGSelector: React.FC<ContactProps> = ({ current, set }) => {
     return (
         <section className="background-button-selection">
             <button className={`background-button`} onClick={() => { set(0) }}>
-                <div className={`flex w-full h-full ${current == 0 ? 'bg-white' : ''}`} />
+                <div className={`flex w-[70%] h-[70%] ${current == 0 ? 'bg-white' : ''}`} />
             </button>
             <label className="background-button-label">BLANK</label>
             <button className={`background-button`} onClick={() => { set(1) }}>
-                <div className={`flex w-full h-full ${current == 1 ? 'bg-white' : ''}`} />
+                <div className={`flex w-[70%] h-[70%] ${current == 1 ? 'bg-white' : ''}`} />
             </button>
             <label className="background-button-label">BASIC</label>
             <button className={`background-button`} onClick={() => { set(2) }}>
-                <div className={`flex w-full h-full ${current == 2 ? 'bg-white' : ''}`} />
+                <div className={`flex w-[70%] h-[70%] ${current == 2 ? 'bg-white' : ''}`} />
             </button>
             <label className="background-button-label">DETAILED</label>
         </section>
