@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import './styling/App.css'
 import { Background } from './components/Canvas'
 import { Exit } from './components/Exit';
