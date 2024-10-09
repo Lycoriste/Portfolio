@@ -1,6 +1,7 @@
 # Development Documentation
 
-This portfolio website takes great inspiration for Keita Yamada's portfolio, who makes amazing websites. Check him out at https://p5aholic.me.
+This portfolio website takes great inspiration from Keita Yamada's portfolio, an amazing designer and web developer. Check him out at https://p5aholic.me. As someone without any web development experience, his works has given me significant guidance on my learning and progress on this personal portfolio.
+
 The website is built using Vite, React, and ReactThreeFiber/three.js.
 
 Postprocessing for scenes uses the postprocessing library over three.js's postprocessing library and react-three-fiber's postprocessing to merge effects via EffectPass. 
