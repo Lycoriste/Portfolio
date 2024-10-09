@@ -1,50 +1,44 @@
-# React + TypeScript + Vite
+# Development Documentation
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This portfolio website takes great inspiration from Keita Yamada's portfolio, an amazing designer and web developer. Check him out at https://p5aholic.me. As someone without any web development experience, his works has given me significant guidance on my learning and progress on this personal portfolio.
 
-Currently, two official plugins are available:
+The website is built using Vite, React, and ReactThreeFiber/three.js.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+# Postprocessing
+Postprocessing for scenes uses the postprocessing library over three.js's postprocessing library and react-three-fiber's postprocessing to merge effects via EffectPass. 
 ```
+const composer = useMemo(() => {
+const composer = new FXC(gl,
+    {
+        multisampling: 0
+    });
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+// Postprocessing Effects
+const bloomEffect = new BloomEffect({ luminanceThreshold: 0.05, luminanceSmoothing: 0.5, intensity: 3.5 });
+const vignetteEffect = new VignetteEffect({ offset: 0.15, darkness: 0.83, eskil: false, blendFunction: BlendFunction.NORMAL });
+const noiseEffect = new NoiseEffect({ premultiply: true, blendFunction: BlendFunction.ADD });
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+// Instantiate EffectPass
+const effectPass = new EffectPass(camera, noiseEffect, vignetteEffect, bloomEffect);
+effectPass.renderToScreen = true;
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+// Add passes
+composer.addPass(new RenderPass(scene, camera));
+composer.addPass(effectPass);
+
+return composer;
+}, []);
+
+useEffect(() => {
+return () => { composer.dispose() }
+}, [composer]);
+useFrame((_state, delta) => {
+composer.render(delta);
+}, 1);
 ```
+The usage of postprocessing increases FPS for detailed scenes is observed around 7%.
+
+# Design
+The layout is essentially the same as Keita Yamada's personal portfolio so all credits belong to him for this layout. Aside from aesthetic purposes, this layout requires fewer effort in scrolling for users and presents everything on the home page; this simplifies navigation. And since a view of the 3D background is important, the outer frame of the page allows me to position certain elements like buttons without it taking up space of the background and content, makes it easier to find, and appears less distracting.
+
+The three buttons on the left allows users to pick their background as I have come to observe that my initial scene requires greater specifications on devices to render with less lag, especially on larger screens. As I have yet to completely optimize the detailed scene, I have decided to add other scenes for users to prevent lag or distracting visuals if preferred.
