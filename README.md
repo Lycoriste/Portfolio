@@ -4,6 +4,7 @@ This portfolio website takes great inspiration from Keita Yamada's portfolio, an
 
 The website is built using Vite, React, and ReactThreeFiber/three.js.
 
+# Postprocessing
 Postprocessing for scenes uses the postprocessing library over three.js's postprocessing library and react-three-fiber's postprocessing to merge effects via EffectPass. 
 ```
 const composer = useMemo(() => {
@@ -36,3 +37,8 @@ composer.render(delta);
 }, 1);
 ```
 The usage of postprocessing increases FPS for detailed scenes is observed around 7%.
+
+# Design
+The layout is essentially the same as Keita Yamada's personal portfolio so all credits belong to him for this layout.
+
+The three buttons on the left allows users to pick their background as I have come to observe that my initial scene requires greater specifications on devices to render with less lag, especially on larger screens. As I have yet to completely optimize the detailed scene, I have decided to add other scenes for users to prevent lag or distracting visuals if preferred.
