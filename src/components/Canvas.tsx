@@ -4,7 +4,7 @@ import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber"
 import { BlendFunction, EffectComposer as FXC, EffectPass, RenderPass, NoiseEffect, VignetteEffect, BloomEffect } from "postprocessing";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
 import gsap from "gsap";
-// import { Stats } from "@react-three/drei";
+import { Stats } from "@react-three/drei";
 import * as THREE from 'three';
 
 type BackgroundProps = {
@@ -12,11 +12,32 @@ type BackgroundProps = {
     current: string;
 }
 
+function usePrevious(value: any) {
+    const ref = useRef();
+    useEffect(() => {
+        ref.current = value; // Store current value in ref
+    }, [value]); // Update ref when the value changes
+    return ref.current; // Return the previous value
+}
+
+
 export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNumber, current }) => {
+    const prevBGN = usePrevious(backgroundNumber);
+
     const futureGadgetLab = useLoader(GLTFLoader, "/models/lab/scene.gltf");
     const Blank = () => {
+        const { camera } = useThree();
+        if (backgroundNumber == 0) {
+            useEffect(() => {
+                gsap.globalTimeline.clear();
+                const cameraTarget = new THREE.Vector3(0, 0, 0);
+                camera.position.set(0, 1, 0);
+                camera.lookAt(cameraTarget);
+            }, [])
+        }
+
         return (
-            <mesh geometry={new THREE.BoxGeometry(0.00001, 0.00001, 0.00001)} material={new THREE.MeshBasicMaterial({ wireframe: true })} visible={backgroundNumber == 0} />
+            <mesh geometry={new THREE.BoxGeometry(0.00001, 0.00001, 0.00001)} material={new THREE.MeshBasicMaterial({ wireframe: true })} position={new THREE.Vector3(0, 0, 0)} visible={backgroundNumber == 0} />
         );
     }
 
@@ -60,9 +81,14 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
 
         if (backgroundNumber == 2) {
             useEffect(() => {
-                console.log("backgroundNumber " + backgroundNumber + " current " + current);
                 if (spotlightRef.current) {
                     spotlightRef.current.target = spotlightTargetRef.current;
+                }
+
+                if (prevBGN != 2) {
+                    cameraTarget = cameraLocations[current][1];
+                    camera.position.copy(cameraLocations[current][0]);
+                    camera.lookAt(cameraTarget);
                 }
 
                 try {
@@ -85,8 +111,6 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
                         duration: 1.5,
                     });
                 } catch (error) {
-                    console.log('Failed to get location, rendering fallback.');
-                    console.log('Error: ' + error);
                     gsap.killTweensOf(camera.position);
                     gsap.killTweensOf(cameraTarget);
                     cameraTarget = cameraLocations['Home'][1];
@@ -171,47 +195,10 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
                 <Blank />
                 <Sphere />
                 <Lab />
-                {/* <Stats /> */}
+                <Stats />
             </Canvas>
         </div>
     )
 }, (prev, next) => {
     return prev.backgroundNumber == next.backgroundNumber && next.backgroundNumber == 1;
 });
-
-// try {
-//     background = (
-//         <Canvas camera={{ fov: 75, near: 0.001, far: 20, position: [0, 1, 0] }} >
-//             <mesh visible={backgroundNumber == 0} />
-//             <Sphere />
-//             <Lab />
-//             <Stats />
-//         </Canvas>
-//     );
-// } catch (error) {
-//     console.log("An error has occured with loading three.js background.\nError: " + error);
-//     <Canvas camera={{ fov: 75, near: 0.001, far: 20, position: [0, 1, 0] }} >
-//         <Sphere />
-//     </Canvas>
-// }
-
-{/* Postprocessing Effects */ }
-{/* 
-<EffectComposer disableNormalPass={true} autoClear={false} multisampling={0} resolutionScale={0.2}>
-    <Noise
-        premultiply
-        blendFunction={BlendFunction.ADD}
-    />
-    <Vignette
-        offset={0.15}
-        darkness={0.83}
-        eskil={false}
-        blendFunction={BlendFunction.NORMAL}
-    />
-    <Bloom
-        luminanceThreshold={0.05}
-        luminanceSmoothing={0.5}
-        intensity={2}
-    />
-</EffectComposer> 
-*/}

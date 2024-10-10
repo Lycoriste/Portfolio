@@ -3,7 +3,6 @@ type ContactProps = {
     set: React.Dispatch<React.SetStateAction<number>>;
 }
 
-
 export const BGSelector: React.FC<ContactProps> = ({ current, set }) => {
     return (
         <section className="background-button-selection">
