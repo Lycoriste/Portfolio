@@ -34,9 +34,4 @@ useFrame((_state, delta) => {
 composer.render(delta);
 }, 1);
 ```
-The usage of postprocessing increases FPS for detailed scenes is observed around 7%.
-
-# Design
-The layout is essentially the same as Keita Yamada's personal portfolio so all credits belong to him for this layout. Aside from aesthetic purposes, this layout requires fewer effort in scrolling for users and presents everything on the home page; this simplifies navigation. And since a view of the 3D background is important, the outer frame of the page allows me to position certain elements like buttons without it taking up space of the background and content, makes it easier to find, and appears less distracting.
-
-The three buttons on the left allows users to pick their background as I have come to observe that my initial scene requires greater specifications on devices to render with less lag, especially on larger screens. As I have yet to completely optimize the detailed scene, I have decided to add other scenes for users to prevent lag or distracting visuals if preferred.
+The usage of postprocessing effects increases FPS for detailed scenes is observed to be around 7%.
