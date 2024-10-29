@@ -26,7 +26,7 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
     const prevBGN = usePrevious(backgroundNumber);
 
     // Preload model
-    const futureGadgetLab = useLoader(GLTFLoader, "/models/labtest/untitled.gltf");
+    const futureGadgetLab = useLoader(GLTFLoader, "/models/lab/scene.gltf");
 
     const Blank = () => {
         const { camera } = useThree();
