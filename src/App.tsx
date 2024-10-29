@@ -31,7 +31,7 @@ function App() {
             <Contact current={currentSection} set={setCurrentSection} />
           </section>
 
-          <section id="tab-content" className={`tab-content-styling ${currentSection == 'Home' ? 'w-0' : 'w-100'}`}>
+          <section id="tab-content" className={`tab-content-styling ${currentSection == 'Home' ? 'w-0' : 'w-full'}`}>
             <AboutPage current={currentSection} />
             <ProjectsPage current={currentSection} />
           </section>
