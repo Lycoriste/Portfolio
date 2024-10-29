@@ -1,20 +1,20 @@
-import { useState } from 'react'
 import './styling/App.css'
+import './styling/TabContent.css'
+import { useState } from 'react'
 import { Background } from './components/Canvas'
-import { Exit } from './components/Exit';
+import { Exit } from './components/tab_buttons/Exit';
 import { Header } from './components/Header';
-import { Home } from './components/Home';
-import { About } from './components/About';
-import { Contact } from './components/Contact';
-import { Projects } from './components/Projects';
-import { CursorScript } from './utils/CursorScript';
+import { Home } from './components/tab_buttons/Home';
+import { About } from './components/tab_buttons/About';
+import { Contact } from './components/tab_buttons/Contact';
+import { Projects } from './components/tab_buttons/Projects';
 import { BGSelector } from './components/BGSelector';
+import { AboutPage } from './components/tabs/AboutPage';
+import { ProjectsPage } from './components/tabs/ProjectsPage';
 
 function App() {
-  const [currentBackground, setBackground] = useState(2);
+  const [currentBackground, setBackground] = useState(1);
   const [currentSection, setCurrentSection] = useState('Home');
-
-  CursorScript();
 
   return (
     <>
@@ -29,6 +29,11 @@ function App() {
             <About current={currentSection} set={setCurrentSection} />
             <Projects current={currentSection} set={setCurrentSection} />
             <Contact current={currentSection} set={setCurrentSection} />
+          </section>
+
+          <section id="tab-content" className={`tab-content-styling ${currentSection == 'Home' ? 'w-0' : 'w-100'}`}>
+            <AboutPage current={currentSection} />
+            <ProjectsPage current={currentSection} />
           </section>
         </section>
       </main >
