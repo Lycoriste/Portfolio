@@ -13,6 +13,7 @@ type BackgroundProps = {
 }
 
 function usePrevious(value: any) {
+    console.log("prev ran");
     const ref = useRef();
     useEffect(() => {
         ref.current = value; // Store current value in ref
@@ -24,7 +25,9 @@ function usePrevious(value: any) {
 export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNumber, current }) => {
     const prevBGN = usePrevious(backgroundNumber);
 
-    const futureGadgetLab = useLoader(GLTFLoader, "/models/lab/scene.gltf");
+    // Preload model
+    const futureGadgetLab = useLoader(GLTFLoader, "/models/labtest/untitled.gltf");
+
     const Blank = () => {
         const { camera } = useThree();
         if (backgroundNumber == 0) {
@@ -61,7 +64,7 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
         };
 
         return (
-            <Suspense>
+            <Suspense fallback={<span>Loading</span>} >
                 <mesh ref={sphereRef} geometry={new THREE.SphereGeometry(6, 8, 8)} material={new THREE.MeshBasicMaterial({ wireframe: true })} position={new THREE.Vector3(0, -5, 0)} visible={backgroundNumber == 1} />
             </Suspense>
         );
@@ -117,7 +120,7 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
                     camera.position.copy(cameraLocations['Home'][0]);
                     camera.lookAt(cameraTarget);
                 }
-            }, [current]);
+            }, []);
         }
 
         const lighting = useMemo(() => {
@@ -179,7 +182,7 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
 
         return (
             <>
-                <Suspense fallback={<Sphere />}>
+                <Suspense fallback={<span>Loading</span>}>
                     {lighting}
                     <primitive object={spotlightTargetRef.current} position={[0.5, -5, 6]} visible={backgroundNumber == 2} />
                     <primitive object={futureGadgetLab.scene} visible={backgroundNumber == 2} />
@@ -191,7 +194,7 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
 
     return (
         <div className='flex page-padding w-full h-full absolute -z-50'>
-            <Canvas camera={{ fov: 75, near: 0.001, far: 20, position: [0, 1, 0] }} >
+            <Canvas camera={{ fov: 85, near: 0.001, far: 20, position: [0, 1, 0] }} >
                 <Blank />
                 <Sphere />
                 <Lab />
@@ -199,6 +202,7 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
             </Canvas>
         </div>
     )
+
 }, (prev, next) => {
     return prev.backgroundNumber == next.backgroundNumber && next.backgroundNumber == 1;
 });
