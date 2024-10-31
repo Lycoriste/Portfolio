@@ -16,7 +16,7 @@ export const Exit: React.FC<ContactProps> = ({ current, set }) => {
                         console.log('Invalid');
                     }
                 }}>
-                ← Return to home
+                ← H O M E
             </button>
         </div>
     );

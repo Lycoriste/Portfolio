@@ -14,7 +14,7 @@
 #about-container {
     position: relative;
     flex-direction: column;
-    justify-content: center;
+    justify-content: start;
     align-items: start;
     width: 100%;
     height: 100%;
@@ -47,7 +47,7 @@
 
 #about-body {
     display: flex;
-    margin-top: 2vw;
+    margin-top: 1.75vw;
     color: white;
     font-size: clamp(2px, 3vw, 17px);
     font-weight: 300;
@@ -56,9 +56,12 @@
 
 #projects-content {
     position: relative;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
     width: 100%;
     height: 100%;
-    padding: 10%;
+    padding: 6%;
     color: white;
     background-color: rgba(0, 0, 0, 0.7);
     overflow: hidden;
@@ -67,4 +70,35 @@
     -o-transition: opacity 0.5s ease-in-out, display 0.5s ease-in-out;
     transition: opacity 0.5s ease-in-out, display 0.5s ease-in-out;
     transition-behavior: allow-discrete;
+}
+
+
+#projects-header {
+    position: relative;
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+    color: white;
+    font-family: 'CutiveMono';
+    font-size: clamp(2px, 6vw, 32px);
+    border-bottom: 1px solid white;
+    overflow: hidden;
+    -webkit-transition: opacity 0.5s ease-in-out, display 0.5s ease-in-out;
+    -moz-transition: opacity 0.5s ease-in-out, display 0.5s ease-in-out;
+    -o-transition: opacity 0.5s ease-in-out, display 0.5s ease-in-out;
+    transition: opacity 0.5s ease-in-out, display 0.5s ease-in-out;
+    transition-behavior: allow-discrete;
+}
+
+#project-scroller {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    margin-top: 1vw;
+    border: 1px solid white;
+}
+
+.project-card {
+
 }
