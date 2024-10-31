@@ -21,9 +21,9 @@ function App() {
       <Background backgroundNumber={currentBackground} current={currentSection} />
       <BGSelector current={currentBackground} set={setBackground} />
       <Exit current={currentSection} set={setCurrentSection} />
-      <main id="main" className="flex page-padding w-full h-full absolute z-50">
-        <section id="content-frame" className="relative w-full h-full canvas-border">
-          <section id="tabs" className={`tabs-styling ${currentSection == 'Home' ? 'w-[30%]' : 'w-0'}`}>
+      <main id="main" className="flex page-padding w-full h-full absolute -z-50">
+        <section id="content-frame" className="relative w-full h-full canvas-border -z-50">
+          <section id="tabs" className={`tabs-styling ${currentSection == 'Home' ? 'w-[30%]' : 'w-0 pointer-events-none'}`}>
             <Header />
             <Home current={currentSection} set={setCurrentSection} />
             <About current={currentSection} set={setCurrentSection} />
@@ -31,7 +31,7 @@ function App() {
             <Contact current={currentSection} set={setCurrentSection} />
           </section>
 
-          <section id="tab-content" className={`tab-content-styling ${currentSection == 'Home' ? 'w-0' : 'w-full'}`}>
+          <section id="tab-content" className={`tab-content-styling ${currentSection == 'Home' ? 'w-0 pointer-events-none' : 'w-full'}`}>
             <AboutPage current={currentSection} />
             <ProjectsPage current={currentSection} />
           </section>

@@ -101,7 +101,7 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
                         x: newCameraTarget.x,
                         y: newCameraTarget.y,
                         z: newCameraTarget.z,
-                        duration: 1.5,
+                        duration: 0.65,
                         onUpdate() {
                             camera.lookAt(cameraTarget)
                         }
@@ -111,7 +111,7 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
                         x: cameraLocations[current][0].x,
                         y: cameraLocations[current][0].y,
                         z: cameraLocations[current][0].z,
-                        duration: 1.5,
+                        duration: 0.65,
                     });
                 } catch (error) {
                     gsap.killTweensOf(camera.position);
@@ -198,7 +198,7 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
                 <Blank />
                 <Sphere />
                 <Lab />
-                <Stats />
+                {/* <Stats /> */}
             </Canvas>
         </div>
     )
