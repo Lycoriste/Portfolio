@@ -4,7 +4,7 @@ import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber"
 import { BlendFunction, EffectComposer as FXC, EffectPass, RenderPass, NoiseEffect, VignetteEffect, BloomEffect } from "postprocessing";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
 import gsap from "gsap";
-import { Stats } from "@react-three/drei";
+// import { Stats } from "@react-three/drei";
 import * as THREE from 'three';
 
 type BackgroundProps = {
@@ -26,7 +26,7 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
     const prevBGN = usePrevious(backgroundNumber);
 
     // Preload model
-    const futureGadgetLab = useLoader(GLTFLoader, "/models/labtest/untitled.gltf");
+    const futureGadgetLab = useLoader(GLTFLoader, "/models/lab/scene.gltf");
 
     const Blank = () => {
         const { camera } = useThree();
@@ -101,7 +101,7 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
                         x: newCameraTarget.x,
                         y: newCameraTarget.y,
                         z: newCameraTarget.z,
-                        duration: 1.5,
+                        duration: 0.65,
                         onUpdate() {
                             camera.lookAt(cameraTarget)
                         }
@@ -111,7 +111,7 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
                         x: cameraLocations[current][0].x,
                         y: cameraLocations[current][0].y,
                         z: cameraLocations[current][0].z,
-                        duration: 1.5,
+                        duration: 0.65,
                     });
                 } catch (error) {
                     gsap.killTweensOf(camera.position);
@@ -198,7 +198,7 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
                 <Blank />
                 <Sphere />
                 <Lab />
-                <Stats />
+                {/* <Stats /> */}
             </Canvas>
         </div>
     )

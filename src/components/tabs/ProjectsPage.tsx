@@ -4,7 +4,7 @@ type ProjectsProps = {
 
 export const ProjectsPage: React.FC<ProjectsProps> = ({ current }) => {
     return (
-        <div id='projects-content' className={`${current == 'Projects' ? 'flex' : 'hidden'}`}>
+        <div id='projects-content' className={`${current == 'Projects' ? 'flex opacity-100' : 'hidden opacity-0 pointer-events-none'}`}>
             Lorem ipsum odor amet, consectetuer adipiscing elit. Placerat turpis enim nam elementum litora donec arcu odio amet. Feugiat penatibus lectus venenatis eros vulputate vulputate a. Nascetur litora laoreet vivamus vel accumsan. Suspendisse porta odio suscipit leo sem primis magnis purus. Dignissim sed ut nostra tristique arcu urna suscipit nisi. Nisi torquent fermentum ipsum parturient platea fusce condimentum. Morbi magnis facilisi molestie dignissim faucibus dui taciti.
 
             Nibh placerat habitasse nibh fames consectetur vehicula. Fames dapibus mollis per hac sodales felis. Sapien eleifend odio dictumst dis fusce natoque, id nec litora. Phasellus dui ut libero consectetur faucibus ligula. Malesuada sollicitudin condimentum proin a posuere fermentum suspendisse consectetur ad. Risus iaculis mattis rutrum magna ultrices posuere. Senectus fusce tempor risus class morbi. Integer aptent dictum scelerisque nulla diam lacus curae laoreet. Nibh volutpat nunc varius potenti taciti justo.
