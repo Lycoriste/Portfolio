@@ -4,7 +4,7 @@ import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber"
 import { BlendFunction, EffectComposer as FXC, EffectPass, RenderPass, NoiseEffect, VignetteEffect, BloomEffect } from "postprocessing";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
 import gsap from "gsap";
-import { Stats } from "@react-three/drei";
+// import { Stats } from "@react-three/drei";
 import * as THREE from 'three';
 
 type BackgroundProps = {
