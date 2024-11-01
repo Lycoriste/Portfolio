@@ -90,7 +90,7 @@
 .background-button {
     display: flex;
     border: 1px solid white;
-    width: clamp(2px, 2vw, 20px);
+    width: clamp(2px, 3vw, 20px);
     -webkit-aspect-ratio: 1 / 1;
     aspect-ratio: 1/1;
     margin: clamp(2px, 1vw, 8px);
@@ -100,9 +100,12 @@
 
 .background-button-label {
     display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     color: white;
     font-family: 'CutiveMono';
-    font-size: clamp(2px, 2vw, 16px);
+    font-size: clamp(2px, 3vw, 16px);
     writing-mode: vertical-rl;
     transform: rotate(180deg);
 }
