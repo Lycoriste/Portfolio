@@ -9,8 +9,9 @@ export const ContactPage: React.FC<AboutProps> = ({ current }) => {
                 <span id='contact-header'>Contact</span>
                 steventeng03@gmail.com <br />
                 nhteng@ucsd.edu <br />
-                <a href='https://github.com/Lycoriste/'>https://github.com/Lycoriste</a>
-                <a href='https://www.linkedin.com/in/lycoriste/'>https://www.linkedin.com/in/lycoriste</a>
+                <br />
+                <a href='https://github.com/Lycoriste/' className='hover:text-gray-300'>https://github.com/Lycoriste</a>
+                <a href='https://www.linkedin.com/in/lycoriste/' className='hover:text-gray-300'>https://www.linkedin.com/in/lycoriste</a>
             </span>
         </div>
     )

@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useMemo, Suspense } from "react";
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber"
-// import { EffectComposer, Noise, Vignette, Bloom } from '@react-three/postprocessing'
 import { BlendFunction, EffectComposer as FXC, EffectPass, RenderPass, NoiseEffect, VignetteEffect, BloomEffect } from "postprocessing";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
 import gsap from "gsap";
-// import { Stats } from "@react-three/drei";
 import * as THREE from 'three';
+// import { Stats } from "@react-three/drei";
 
 type BackgroundProps = {
     backgroundNumber: number;
@@ -26,7 +25,7 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
     const prevBGN = usePrevious(backgroundNumber);
 
     // Preload model
-    const futureGadgetLab = useLoader(GLTFLoader, "/models/lab/scene.gltf");
+    const futureGadgetLab = useLoader(GLTFLoader, "/models/lab/scene.gltf"); // Unoptimized model for background 3
 
     const Blank = () => {
         const { camera } = useThree();
@@ -72,7 +71,6 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
 
     const Lab = () => {
         const { scene, camera, gl } = useThree();
-        // 'Tab' : [CameraPosition, CameraLookAt]
         let cameraTarget = new THREE.Vector3(0.345, 1.8, -10);
         const cameraLocations: { [key: string]: THREE.Vector3[] } = {
             Home: [new THREE.Vector3(0.345, 2.5, 5.5), new THREE.Vector3(0.345, 1.8, -10)],
