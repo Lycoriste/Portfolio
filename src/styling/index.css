@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 * {
   margin: 0;
   padding: 0;
@@ -26,4 +27,10 @@ body {
   font-weight: 400;
   font-style: normal;
   src: url('/fonts/CutiveMono-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: "Antipasto";
+  font-style: normal;
+  src: url('/fonts/Antipasto.ttf') format('truetype');
 }
