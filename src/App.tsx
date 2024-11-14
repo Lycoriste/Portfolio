@@ -11,6 +11,7 @@ import { Projects } from './components/tab_buttons/Projects';
 import { BGSelector } from './components/BGSelector';
 import { AboutPage } from './components/tabs/AboutPage';
 import { ProjectsPage } from './components/tabs/ProjectsPage';
+import { ContactPage } from './components/tabs/ContactPage';
 
 function App() {
   const [currentBackground, setBackground] = useState(1);
@@ -34,6 +35,7 @@ function App() {
           <section id="tab-content" className={`tab-content-styling ${currentSection == 'Home' ? 'w-0 pointer-events-none' : 'w-full'}`}>
             <AboutPage current={currentSection} />
             <ProjectsPage current={currentSection} />
+            <ContactPage current={currentSection} />
           </section>
         </section>
       </main >
