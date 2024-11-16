@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useMemo, Suspense } from "react";
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber"
-import { BlendFunction, EffectComposer as FXC, EffectPass, RenderPass, NoiseEffect, VignetteEffect, BloomEffect } from "postprocessing";
+import { BlendFunction, EffectComposer as FXC, EffectPass, RenderPass, NoiseEffect, VignetteEffect, BloomEffect, GlitchEffect, GlitchMode } from "postprocessing";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
 import gsap from "gsap";
 import * as THREE from 'three';
+import { useTexture } from "@react-three/drei";
+import { Environment } from "@react-three/drei";
 // import { Stats } from "@react-three/drei";
 
 type BackgroundProps = {
@@ -25,8 +27,10 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
     const prevBGN = usePrevious(backgroundNumber);
 
     // Preload model
+    const cyberpunkApartment = useLoader(GLTFLoader, "/models/apt/scene.gltf")
     const futureGadgetLab = useLoader(GLTFLoader, "/models/lab/scene.gltf"); // Unoptimized model for background 3
 
+    // BG1
     const Blank = () => {
         const { camera } = useThree();
         if (backgroundNumber == 0) {
@@ -43,6 +47,7 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
         );
     }
 
+    // Placeholder BG2
     const Sphere = (() => {
         const { camera } = useThree();
         const sphereRef = useRef<THREE.Mesh>(null);
@@ -69,6 +74,135 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
         );
     });
 
+    const Apartment = () => {
+        const { scene, camera, gl } = useThree();
+
+        const wallTexture = useTexture({
+            normalMap: "/models/apt/textures/Wall_paint_normal.png",
+            metalnessMap: "models/apt/textures/Wall_paint_metallicRoughness.png",
+            roughnessMap: "models/apt/textures/Wall_paint_metallicRoughness.png",
+        });
+
+        useEffect(() => {
+            cyberpunkApartment.scene.traverse((object) => {
+                if (object instanceof THREE.Mesh) {
+                    // object.material.normalMap = wallTexture.normalMap;
+                    object.material.metalnessMap = wallTexture.metalnessMap;
+                    object.material.roughnessMap = wallTexture.roughnessMap;
+                }
+            });
+        }, []);
+
+        if (backgroundNumber == 1) {
+            useEffect(() => {
+                gsap.globalTimeline.clear();
+                const cameraTarget = new THREE.Vector3(0, 0, 0);
+                camera.position.set(0.09, 0.04, -0.11);
+                camera.lookAt(cameraTarget);
+            }, []);
+        }
+
+        let mixer: THREE.AnimationMixer;
+        if (cyberpunkApartment.animations.length) {
+            mixer = new THREE.AnimationMixer(cyberpunkApartment.scene);
+            cyberpunkApartment.animations.forEach(clip => {
+                const action = mixer.clipAction(clip)
+                action.play();
+            });
+        }
+
+        useFrame((_state, delta) => {
+            mixer?.update(delta)
+        })
+
+        cyberpunkApartment.scene.traverse(child => {
+            if (child instanceof THREE.Mesh) {
+                child.castShadow = true
+                child.receiveShadow = true
+                child.material.side = THREE.FrontSide
+            }
+        })
+
+        const apartmentLighting = useMemo(() => {
+            if (backgroundNumber == 1) {
+                return (
+                    <>
+                        <ambientLight intensity={1} color={'#f5ebff'} />
+                        <directionalLight position={[1.4, 0.05, 0.2]} intensity={4} color={'#f5ebff'} castShadow={true} />
+                    </>
+                );
+            } else return null;
+        }, []);
+
+        const PostProcessingEffects = () => {
+            if (backgroundNumber == 1) {
+                const composer = useMemo(() => {
+                    const composer = new FXC(gl,
+                        {
+                            multisampling: 0
+                        });
+
+                    // Postprocessing Effects
+                    const bloomEffect = new BloomEffect({
+                        luminanceThreshold: 0.01,
+                        luminanceSmoothing: 0.5,
+                        intensity: 1
+                    });
+
+                    const vignetteEffect = new VignetteEffect({
+                        offset: 0.15,
+                        darkness: 0.83,
+                        eskil: false,
+                        blendFunction: BlendFunction.NORMAL
+                    });
+
+                    const noiseEffect = new NoiseEffect({
+                        premultiply: true,
+                        blendFunction: BlendFunction.NORMAL,
+                    });
+
+                    // Glitch effect
+                    const glitchEffect = new GlitchEffect({
+                        delay: new THREE.Vector2(1.5, 4),
+                        duration: new THREE.Vector2(0.1, 0.3),
+                        strength: new THREE.Vector2(0.1, 0.2),
+                        blendFunction: BlendFunction.SUBTRACT,
+                        ratio: 0.8
+                    });
+
+                    // Instantiate EffectPass
+                    const effectPass = new EffectPass(camera, noiseEffect, vignetteEffect, bloomEffect, glitchEffect);
+                    effectPass.renderToScreen = true;
+
+                    // Add passes
+                    composer.addPass(new RenderPass(scene, camera));
+                    composer.addPass(effectPass);
+
+                    return composer;
+                }, []);
+
+                useEffect(() => {
+                    return () => { composer.dispose() }
+                }, [composer]);
+                useFrame((_state, delta) => {
+                    composer.render(delta);
+                }, 1);
+            }
+            return null;
+        }
+
+        return (
+
+            <Suspense fallback={<span>Loading</span>} >
+                <Environment preset="city" background environmentIntensity={0.4} />
+                {apartmentLighting}
+                <primitive object={cyberpunkApartment.scene} visible={backgroundNumber == 1} />
+                {<PostProcessingEffects />}
+            </Suspense>
+        );
+    }
+
+    // BG3
     const Lab = () => {
         const { scene, camera, gl } = useThree();
         let cameraTarget = new THREE.Vector3(0.345, 1.8, -10);
@@ -121,7 +255,7 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
             }, []);
         }
 
-        const lighting = useMemo(() => {
+        const labLighting = useMemo(() => {
             if (backgroundNumber == 2) {
                 return (
                     <>
@@ -181,7 +315,7 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
         return (
             <>
                 <Suspense fallback={<span>Loading</span>}>
-                    {lighting}
+                    {labLighting}
                     <primitive object={spotlightTargetRef.current} position={[0.5, -5, 6]} visible={backgroundNumber == 2} />
                     <primitive object={futureGadgetLab.scene} visible={backgroundNumber == 2} />
                     <PostProcessingEffects />
@@ -194,7 +328,8 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
         <div className='flex page-padding w-full h-full absolute -z-50'>
             <Canvas camera={{ fov: 85, near: 0.001, far: 20, position: [0, 1, 0] }} >
                 <Blank />
-                <Sphere />
+                {/* <Sphere /> */}
+                <Apartment />
                 <Lab />
                 {/* <Stats /> */}
             </Canvas>
