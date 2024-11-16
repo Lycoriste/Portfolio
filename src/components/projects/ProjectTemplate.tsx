@@ -24,14 +24,14 @@ export const ProjectTemplate: React.FC<Template> = ({ projectName }) => {
         case 'roblox-ai-project': {
             title = 'Roblox Reinforcement Learning AI';
             github = 'https://github.com/Lycoriste/RBXWebserver';
-            description = "This project explores the use of Reinforcement Learning (RL) to create more human-like and intelligent NPC (Non-Playable Character) behaviors in Roblox games. By training NPCs to interact dynamically with their environment, the AI learns optimal decision-making strategies based on feedback from its actions. Through RL, NPCs in the game are able to observe their surroundings, adapt to player behaviors, and respond in increasingly sophisticated ways, making each interaction feel more natural and engaging. The NPCs are trained to solve in-game challenges, navigate complex environments, and make decisions that mimic human-like behavior, such as learning from past experiences and adjusting strategies based on the current situation. Currently, a backend is setup via FastAPI to allows communication between Roblox Studio and PyTorch + AWS RDS PostgreSQL Database. Reinforcement learning model and environment + agent design is ongoing.";
+            description = "This project explores the use of Reinforcement Learning (RL) to create more human-like and intelligent NPC (Non-Playable Character) behaviors in Roblox games. By training NPCs to interact dynamically with their environment, the AI learns optimal decision-making strategies based on feedback from its actions.\n\nThrough RL, NPCs in the game are able to observe their surroundings, adapt to player behaviors, and respond in increasingly sophisticated ways, making each interaction feel more natural and engaging. The NPCs are trained to solve in-game challenges, navigate complex environments, and make decisions that mimic human-like behavior, such as learning from past experiences and adjusting strategies based on the current situation. Currently, a backend is setup via FastAPI to allows communication between Roblox Studio and PyTorch + AWS RDS PostgreSQL Database. Reinforcement learning model and environment + agent design is ongoing.";
             imgURL = 'https://media.discordapp.net/attachments/754304384988479499/1306429619209109524/image.png?ex=6736a2e5&is=67355165&hm=782d89c90bd488314e311f54812ae8d982ecc5cde8968728a4b61d463d7df254&=&format=webp&quality=lossless&width=825&height=489';
             break;
         }
         case 'portfolio': {
             title = 'Portfolio';
             github = 'https://github.com/Lycoriste/Portfolio';
-            description = "My first website was actually a portfolio website (as seen above). I  challenged myself to learn Three.js/React-Three-Fiber because of Keita Yamada's portfolio website (check him out here: https://p5aholic.me), and I thought maybe I could try something like that. This is my second iteration and upgraded version of the original. It is still buggy and I am currently still optimizing the site so I apologize for any inconvenience.";
+            description = "My first website was actually a portfolio website (as seen above). I  challenged myself to learn Three.js/React-Three-Fiber because of Keita Yamada's portfolio website (check him out here: https://p5aholic.me), and I thought maybe I could try something like that. This is my second iteration and upgraded version of the original. It is still buggy and I am currently still optimizing the site so I apologize for any inconvenience.\n\n3D models used:\n'Cyberpunk Apartment' (https://skfb.ly/oz7SP) by Jiaxing is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).\n\n'Steins;Gate - Future Gadget Lab'(https://skfb.ly/6Z9vX) by Theory.OAD is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).";
             imgURL = 'https://media.discordapp.net/attachments/732826094964572160/1267303020601802792/image.png?ex=67395069&is=6737fee9&hm=b9b878071ade66189c925a3f91c28cccc5aef333f8d66fb71000ab52b947bcd8&=&format=webp&quality=lossless&width=1831&height=993'
             deployment = 'www.lycoriste.me'
             break;
@@ -50,7 +50,7 @@ export const ProjectTemplate: React.FC<Template> = ({ projectName }) => {
                 </a>
             </div>
             <img src={imgURL} className="project-image" />
-            <p> {description} </p>
+            <p dangerouslySetInnerHTML={{ __html: description!.replace(/\n/g, '<br />') }} />
             <a href={deployment} target="_blank" rel="noopener noreferrer" className={`self-end underline mt-2 ${deployment == undefined ? "text-yellow-300" : 'hover:text-blue-300'} `}>{deployment == undefined ? "Work in progress" : "View project"}</a>
         </div >
     )
