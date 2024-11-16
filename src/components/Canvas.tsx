@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useMemo, Suspense } from "react";
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber"
-import { BlendFunction, EffectComposer as FXC, EffectPass, RenderPass, NoiseEffect, VignetteEffect, BloomEffect, GlitchEffect, GlitchMode } from "postprocessing";
+import { BlendFunction, EffectComposer as FXC, EffectPass, RenderPass, NoiseEffect, VignetteEffect, BloomEffect, GlitchEffect } from "postprocessing";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
 import gsap from "gsap";
 import * as THREE from 'three';
@@ -46,33 +46,6 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
             <mesh geometry={new THREE.BoxGeometry(0.00001, 0.00001, 0.00001)} material={new THREE.MeshBasicMaterial({ wireframe: true })} position={new THREE.Vector3(0, 0, 0)} visible={backgroundNumber == 0} />
         );
     }
-
-    // Placeholder BG2
-    const Sphere = (() => {
-        const { camera } = useThree();
-        const sphereRef = useRef<THREE.Mesh>(null);
-        if (backgroundNumber == 1) {
-            useEffect(() => {
-                gsap.globalTimeline.clear();
-                const cameraTarget = new THREE.Vector3(0, 0, 0);
-                camera.position.set(0, 1, 0);
-                camera.lookAt(cameraTarget);
-
-                gsap.to(sphereRef.current!.rotation, {
-                    y: Math.PI,
-                    duration: 3,
-                    repeat: -1,
-                    ease: "none"
-                });
-            }, [])
-        };
-
-        return (
-            <Suspense fallback={<span>Loading</span>} >
-                <mesh ref={sphereRef} geometry={new THREE.SphereGeometry(6, 8, 8)} material={new THREE.MeshBasicMaterial({ wireframe: true })} position={new THREE.Vector3(0, -5, 0)} visible={backgroundNumber == 1} />
-            </Suspense>
-        );
-    });
 
     const Apartment = () => {
         const { scene, camera, gl } = useThree();
@@ -328,7 +301,6 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
         <div className='flex page-padding w-full h-full absolute -z-50'>
             <Canvas camera={{ fov: 85, near: 0.001, far: 20, position: [0, 1, 0] }} >
                 <Blank />
-                {/* <Sphere /> */}
                 <Apartment />
                 <Lab />
                 {/* <Stats /> */}
