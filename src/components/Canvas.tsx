@@ -11,7 +11,7 @@ import { Environment } from "@react-three/drei";
 type BackgroundProps = {
     backgroundNumber: number;
     current: string;
-}
+};
 
 function usePrevious(value: any) {
     console.log("prev ran");
@@ -20,8 +20,7 @@ function usePrevious(value: any) {
         ref.current = value; // Store current value in ref
     }, [value]); // Update ref when the value changes
     return ref.current; // Return the previous value
-}
-
+};
 
 export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNumber, current }) => {
     const prevBGN = usePrevious(backgroundNumber);
@@ -52,8 +51,8 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
 
         const wallTexture = useTexture({
             normalMap: "/models/apt/textures/Wall_paint_normal.png",
-            metalnessMap: "models/apt/textures/Wall_paint_metallicRoughness.png",
-            roughnessMap: "models/apt/textures/Wall_paint_metallicRoughness.png",
+            metalnessMap: "/models/apt/textures/Wall_paint_metallicRoughness.png",
+            roughnessMap: "/models/apt/textures/Wall_paint_metallicRoughness.png",
         });
 
         useEffect(() => {
@@ -105,6 +104,16 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
                     </>
                 );
             } else return null;
+        }, [backgroundNumber]);
+
+        const backgroundEnvironment = useMemo(() => {
+            if (backgroundNumber == 1) {
+                return (
+                    <Suspense>
+                        <Environment preset="city" background environmentIntensity={0.4} />
+                    </Suspense>
+                );
+            }
         }, []);
 
         const PostProcessingEffects = () => {
@@ -165,9 +174,8 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
         }
 
         return (
-
-            <Suspense fallback={<span>Loading</span>} >
-                <Environment preset="city" background environmentIntensity={0.4} />
+            <Suspense fallback={<span>Loading scene...</span>} >
+                {backgroundEnvironment}
                 {apartmentLighting}
                 <primitive object={cyberpunkApartment.scene} visible={backgroundNumber == 1} />
                 {<PostProcessingEffects />}
@@ -287,7 +295,7 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
 
         return (
             <>
-                <Suspense fallback={<span>Loading</span>}>
+                <Suspense fallback={<span>Loading scene...</span>}>
                     {labLighting}
                     <primitive object={spotlightTargetRef.current} position={[0.5, -5, 6]} visible={backgroundNumber == 2} />
                     <primitive object={futureGadgetLab.scene} visible={backgroundNumber == 2} />
