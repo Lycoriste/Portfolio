@@ -11,6 +11,7 @@ export const ProjectsPage: React.FC<ProjectsProps> = ({ current }) => {
             <div id='project-scroller'>
                 <ProjectTemplate projectName="chrome-extension-project" />
                 <ProjectTemplate projectName="roblox-ai-project" />
+                <ProjectTemplate projectName="portfolio" />
             </div>
         </div>
     )

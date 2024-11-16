@@ -28,6 +28,14 @@ export const ProjectTemplate: React.FC<Template> = ({ projectName }) => {
             imgURL = 'https://media.discordapp.net/attachments/754304384988479499/1306429619209109524/image.png?ex=6736a2e5&is=67355165&hm=782d89c90bd488314e311f54812ae8d982ecc5cde8968728a4b61d463d7df254&=&format=webp&quality=lossless&width=825&height=489';
             break;
         }
+        case 'portfolio': {
+            title = 'Portfolio';
+            github = 'https://github.com/Lycoriste/Portfolio';
+            description = "My first website was actually a portfolio website (as seen above). I  challenged myself to learn Three.js/React-Three-Fiber because of Keita Yamada's portfolio website (check him out here: https://p5aholic.me), and I thought maybe I could try something like that. This is my second iteration and upgraded version of the original. It is still buggy and I am currently still optimizing the site so I apologize for any inconvenience.";
+            imgURL = 'https://media.discordapp.net/attachments/732826094964572160/1267303020601802792/image.png?ex=67395069&is=6737fee9&hm=b9b878071ade66189c925a3f91c28cccc5aef333f8d66fb71000ab52b947bcd8&=&format=webp&quality=lossless&width=1831&height=993'
+            deployment = 'www.lycoriste.me'
+            break;
+        }
         default: {
             break;
         }

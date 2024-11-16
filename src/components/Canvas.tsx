@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useMemo, Suspense } from "react";
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber"
-import { BlendFunction, EffectComposer as FXC, EffectPass, RenderPass, NoiseEffect, VignetteEffect, BloomEffect, GlitchEffect } from "postprocessing";
+import { BlendFunction, EffectComposer as FXC, EffectPass, RenderPass, NoiseEffect, VignetteEffect, BloomEffect, PixelationEffect } from "postprocessing";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
 import gsap from "gsap";
 import * as THREE from 'three';
@@ -144,16 +144,20 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
                     });
 
                     // Glitch effect
-                    const glitchEffect = new GlitchEffect({
-                        delay: new THREE.Vector2(1.5, 4),
-                        duration: new THREE.Vector2(0.1, 0.3),
-                        strength: new THREE.Vector2(0.1, 0.2),
-                        blendFunction: BlendFunction.SUBTRACT,
-                        ratio: 0.8
-                    });
+                    // const glitchEffect = new GlitchEffect({
+                    //     delay: new THREE.Vector2(0.5, 1.25),
+                    //     duration: new THREE.Vector2(0.1, 0.3),
+                    //     strength: new THREE.Vector2(0.1, 0.2),
+                    //     blendFunction: BlendFunction.SUBTRACT,
+                    //     ratio: 0.8,
+                    //     dtSize: 8,
+                    //     columns: 0.01
+                    // });
+
+                    const pixelationEffect = new PixelationEffect(2);
 
                     // Instantiate EffectPass
-                    const effectPass = new EffectPass(camera, noiseEffect, vignetteEffect, bloomEffect, glitchEffect);
+                    const effectPass = new EffectPass(camera, noiseEffect, vignetteEffect, bloomEffect, pixelationEffect);
                     effectPass.renderToScreen = true;
 
                     // Add passes
