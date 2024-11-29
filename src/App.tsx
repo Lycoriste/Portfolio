@@ -12,6 +12,7 @@ import { BGSelector } from './components/BGSelector';
 import { AboutPage } from './components/tabs/AboutPage';
 import { ProjectsPage } from './components/tabs/ProjectsPage';
 import { ContactPage } from './components/tabs/ContactPage';
+import { Analytics } from "@vercel/analytics/react"
 
 function App() {
   const [currentBackground, setBackground] = useState(1);
@@ -19,6 +20,7 @@ function App() {
 
   return (
     <>
+      <Analytics />
       <Background backgroundNumber={currentBackground} current={currentSection} />
       <BGSelector current={currentBackground} set={setBackground} />
       <Exit current={currentSection} set={setCurrentSection} />
