@@ -46,7 +46,7 @@ export const ProjectTemplate: React.FC<Template> = ({ projectName }) => {
             <div className='flex flex-row justify-between'>
                 <h1 aria-label={title} className="project-title">{title}</h1>
                 <a href={github} target="_blank" rel="noopener noreferrer" className="github-button">
-                    <img src='https://cdn.icon-icons.com/icons2/2389/PNG/512/github_logo_icon_145252.png' />
+                    <img src='/img/projectimg/githubicon.png' />
                 </a>
             </div>
             <img src={imgURL} alt="Project image" className="project-image" />
