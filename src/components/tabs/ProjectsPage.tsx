@@ -10,7 +10,7 @@ export const ProjectsPage: React.FC<ProjectsProps> = ({ current }) => {
             <span id='projects-header'>Projects</span>
             <div id='project-scroller'>
                 <ProjectTemplate projectName="chrome-extension-project" />
-                <ProjectTemplate projectName="roblox-ai-project" />
+                {/* <ProjectTemplate projectName="roblox-ai-project" /> */}
                 <ProjectTemplate projectName="portfolio" />
             </div>
         </div>

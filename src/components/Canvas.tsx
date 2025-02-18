@@ -237,7 +237,7 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
                     camera.position.copy(cameraLocations['Home'][0]);
                     camera.lookAt(cameraTarget);
                 }
-            }, []);
+            }, [backgroundNumber]);
         }
 
         const labLighting = useMemo(() => {
@@ -312,9 +312,19 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
     return (
         <div className='flex page-padding w-full h-full absolute -z-50'>
             <Canvas camera={{ fov: 85, near: 0.001, far: 20, position: [0, 1, 0] }} >
-                <Blank />
-                <Apartment />
-                <Lab />
+                {/*
+                Obsolete code - previously preloaded 3D models which led to longer loading times. Horrible idea.
+
+                    <Blank />
+                    <Apartment />
+                    <Lab />
+
+                Conditionally renders now.
+                 */}
+                
+                {backgroundNumber === 0 && <Blank />}
+                {backgroundNumber === 1 && <Apartment />}
+                {backgroundNumber === 2 && <Lab />}
                 {/* <Stats /> */}
             </Canvas>
         </div>

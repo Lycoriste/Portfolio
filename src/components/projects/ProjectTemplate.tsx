@@ -21,17 +21,17 @@ export const ProjectTemplate: React.FC<Template> = ({ projectName }) => {
             deployment = 'https://chromewebstore.google.com/detail/calocal/ilofgkmdaajnkbbgogakoodnojpfnogk?authuser=0&hl=en;'
             break;
         }
-        case 'roblox-ai-project': {
-            title = 'Roblox AI';
-            github = 'https://github.com/Lycoriste/RBXWebserver';
-            description = "Project in development. Designing Roblox NPC behavior trees by extracting reinforcement learned policies for performance.";
-            imgURL = '/img/projectimg/rbxwebserverproject.png';
-            break;
-        }
+        // case 'roblox-ai-project': {
+        //     title = 'Roblox AI';
+        //     github = 'https://github.com/Lycoriste/RBXWebserver';
+        //     description = "Project in development. Designing Roblox NPC behavior trees by extracting reinforcement learned policies for performance.";
+        //     imgURL = '/img/projectimg/rbxwebserverproject.png';
+        //     break;
+        // }
         case 'portfolio': {
-            title = 'Portfolio';
+            title = 'Portfolio(s)';
             github = 'https://github.com/Lycoriste/Portfolio';
-            description = "My first website was actually a portfolio website (as seen above). I  challenged myself to learn Three.js/React-Three-Fiber because of Keita Yamada's portfolio website (check him out here: https://p5aholic.me), and I thought maybe I could try something like that. This is my second iteration and upgraded version of the original. It is still buggy and I am currently still optimizing the site so I apologize for any inconvenience.\n\n3D models used:\n'Cyberpunk Apartment' (https://skfb.ly/oz7SP) by Jiaxing is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).\n\n'Steins;Gate - Future Gadget Lab'(https://skfb.ly/6Z9vX) by Theory.OAD is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).";
+            description = "Image of my original site above. This site is still buggy and I'm currently optimizing the site so I apologize for the lag.\n\n3D models used:\n'Cyberpunk Apartment' (https://skfb.ly/oz7SP) by Jiaxing is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).\n\n'Steins;Gate - Future Gadget Lab'(https://skfb.ly/6Z9vX) by Theory.OAD is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).";
             imgURL = '/img/projectimg/oldportfolio.png'
             deployment = 'www.lycoriste.me'
             break;
