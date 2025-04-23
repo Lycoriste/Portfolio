@@ -26,10 +26,12 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
     const prevBGN = usePrevious(backgroundNumber);
 
     // Preload model
-    const cyberpunkApartment = useLoader(GLTFLoader, "/models/apt/scene.gltf")
-    const futureGadgetLab = useLoader(GLTFLoader, "/models/lab/scene.gltf"); // Unoptimized model for background 3
+    const cyberpunkApartment = useLoader(GLTFLoader, "/models/apt/scene.gltf");
+    const labroom = useLoader(GLTFLoader, "/models/lab_room.glb")
+    const futureGadgetLab = useLoader(GLTFLoader, "/models/lab_2k.glb");
 
-    // BG1
+    // Background 1
+    // Blank background for those who don't want distracting content
     const Blank = () => {
         const { camera } = useThree();
         if (backgroundNumber == 0) {
@@ -178,7 +180,7 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
         }
 
         return (
-            <Suspense fallback={<span>Loading scene...</span>} >
+            <Suspense fallback={<span>Loading scene...</span>}>
                 {backgroundEnvironment}
                 {apartmentLighting}
                 <primitive object={cyberpunkApartment.scene} visible={backgroundNumber == 1} />
@@ -187,149 +189,219 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
         );
     }
 
-    // BG3
-    const Lab = () => {
-        const { scene, camera, gl } = useThree();
-        let cameraTarget = new THREE.Vector3(0.345, 1.8, -10);
-        const cameraLocations: { [key: string]: THREE.Vector3[] } = {
-            Home: [new THREE.Vector3(0.345, 2.5, 5.5), new THREE.Vector3(0.345, 1.8, -10)],
-            About: [new THREE.Vector3(0.05, 1.8, -0.5), new THREE.Vector3(1, 1.8, -10)]
-        };
+    const LabRoom = () => {
+            const { scene, camera, gl } = useThree();
 
-        const spotlightRef = useRef<THREE.SpotLight>(null);
-        const spotlightTargetRef = useRef(new THREE.Object3D());
-
-        if (backgroundNumber == 2) {
-            useEffect(() => {
-                if (spotlightRef.current) {
-                    spotlightRef.current.target = spotlightTargetRef.current;
-                }
-
-                if (prevBGN != 2) {
-                    cameraTarget = cameraLocations[current][1];
-                    camera.position.copy(cameraLocations[current][0]);
+            if (backgroundNumber == 1) {
+                useEffect(() => {
+                    gsap.globalTimeline.clear();
+                    const cameraTarget = new THREE.Vector3(-0.5, -0.35, 0);
+                    camera.position.set(-0.2, 0.7, 1.3);
                     camera.lookAt(cameraTarget);
-                }
+                }, []);
+            }
 
-                try {
-                    const newCameraTarget = cameraLocations[current][1];
-
-                    gsap.to(cameraTarget, {
-                        x: newCameraTarget.x,
-                        y: newCameraTarget.y,
-                        z: newCameraTarget.z,
-                        duration: 0.65,
-                        onUpdate() {
-                            camera.lookAt(cameraTarget)
-                        }
-                    });
-
-                    gsap.to(camera.position, {
-                        x: cameraLocations[current][0].x,
-                        y: cameraLocations[current][0].y,
-                        z: cameraLocations[current][0].z,
-                        duration: 0.65,
-                    });
-                } catch (error) {
-                    gsap.killTweensOf(camera.position);
-                    gsap.killTweensOf(cameraTarget);
-                    cameraTarget = cameraLocations['Home'][1];
-                    camera.position.copy(cameraLocations['Home'][0]);
-                    camera.lookAt(cameraTarget);
-                }
+            const labLighting = useMemo(() => {
+                if (backgroundNumber == 1) {
+                    return (
+                        <>
+                            <ambientLight intensity={0.8} color={'#f5ebff'} />
+                            <pointLight position={[-0.5, 0.8, 1.1]} intensity={1.5} distance={10} decay={3} color={'#ffffff'} />
+                        </>
+                    );
+                } else return null;
             }, [backgroundNumber]);
-        }
 
-        const labLighting = useMemo(() => {
-            if (backgroundNumber == 2) {
-                return (
-                    <>
-                        <ambientLight intensity={0.2} color={'#B6FFEC'} />
-                        <directionalLight position={[5, 10, 5]} intensity={0.7} color={'#B6FFEC'} />
-                        <pointLight position={[0.3, 1.4, 0.4]} intensity={3} distance={3.5} decay={1} color={'#fcf6b3'} />
-                        <spotLight
-                            ref={spotlightRef}
-                            position={[0.3, 1.4, 0.4]}
-                            intensity={5}
-                            distance={5}
-                            castShadow={true}
-                            angle={Math.PI / 3}
-                            penumbra={1}
-                            decay={0.01}
-                            color={'#fcf6b3'}
-                        />
-                    </>
-                );
-            } else return null;
-        }, [])
+            const PostProcessingEffects = () => {
+                if (backgroundNumber == 1) {
+                    const composer = useMemo(() => {
+                        const composer = new FXC(gl,
+                            {
+                                multisampling: 0
+                            });
 
-        const PostProcessingEffects = () => {
-            if (backgroundNumber == 2) {
-                const composer = useMemo(() => {
-                    const composer = new FXC(gl,
-                        {
-                            multisampling: 0
+                        // Postprocessing Effects
+                        const bloomEffect = new BloomEffect({
+                            luminanceThreshold: 0.01,
+                            luminanceSmoothing: 0.5,
+                            intensity: 1
                         });
 
-                    // Postprocessing Effects
-                    const bloomEffect = new BloomEffect({ luminanceThreshold: 0.05, luminanceSmoothing: 0.5, intensity: 3.5 });
-                    const vignetteEffect = new VignetteEffect({ offset: 0.15, darkness: 0.83, eskil: false, blendFunction: BlendFunction.NORMAL });
-                    const noiseEffect = new NoiseEffect({ premultiply: true, blendFunction: BlendFunction.ADD });
+                        const vignetteEffect = new VignetteEffect({
+                            offset: 0.15,
+                            darkness: 0.93,
+                            eskil: false,
+                            blendFunction: BlendFunction.NORMAL
+                        });
 
-                    // Instantiate EffectPass
-                    const effectPass = new EffectPass(camera, noiseEffect, vignetteEffect, bloomEffect);
-                    effectPass.renderToScreen = true;
+                        const pixelationEffect = new PixelationEffect(1);
 
-                    // Add passes
-                    composer.addPass(new RenderPass(scene, camera));
-                    composer.addPass(effectPass);
+                        // Instantiate EffectPass
+                        const effectPass = new EffectPass(camera, vignetteEffect, bloomEffect, pixelationEffect);
+                        effectPass.renderToScreen = true;
 
-                    return composer;
-                }, []);
+                        // Add passes
+                        composer.addPass(new RenderPass(scene, camera));
+                        composer.addPass(effectPass);
 
-                useEffect(() => {
-                    return () => { composer.dispose() }
-                }, [composer]);
-                useFrame((_state, delta) => {
-                    composer.render(delta);
-                }, 1);
+                        return composer;
+                    }, []);
+
+                    useEffect(() => {
+                        return () => { composer.dispose() }
+                    }, [composer]);
+                    useFrame((_state, delta) => {
+                        composer.render(delta);
+                    }, 1);
+                }
+                return null;
             }
-            return null;
-        };
-
-        return (
-            <>
+            
+            return (
                 <Suspense fallback={<span>Loading scene...</span>}>
                     {labLighting}
-                    <primitive object={spotlightTargetRef.current} position={[0.5, -5, 6]} visible={backgroundNumber == 2} />
-                    <primitive object={futureGadgetLab.scene} visible={backgroundNumber == 2} />
-                    <PostProcessingEffects />
+                    <primitive object={labroom.scene} visible={backgroundNumber == 1} />
+                    {<PostProcessingEffects />}
                 </Suspense>
-            </>
-        );
-    }
+            );
+        }
 
-    return (
-        <div className='flex page-padding w-full h-full absolute -z-50'>
-            <Canvas camera={{ fov: 85, near: 0.001, far: 20, position: [0, 1, 0] }} >
-                {/*
-                Obsolete code - previously preloaded 3D models which led to longer loading times. Horrible idea.
+        // BG3
+        const Lab = () => {
+            const { scene, camera, gl } = useThree();
+            let cameraTarget = new THREE.Vector3(0.345, 1.8, -10);
+            const cameraLocations: { [key: string]: THREE.Vector3[] } = {
+                Home: [new THREE.Vector3(0.345, 2.5, 5.5), new THREE.Vector3(0.345, 1.8, -10)],
+                About: [new THREE.Vector3(0.05, 1.8, -0.5), new THREE.Vector3(1, 1.8, -10)]
+            };
 
+            const spotlightRef = useRef<THREE.SpotLight>(null);
+            const spotlightTargetRef = useRef(new THREE.Object3D());
+
+            if (backgroundNumber == 2) {
+                // Camera movement effects for lab background
+                useEffect(() => {
+                    if (spotlightRef.current) {
+                        spotlightRef.current.target = spotlightTargetRef.current;
+                    }
+
+                    if (prevBGN != 2) {
+                        cameraTarget = cameraLocations[current][1];
+                        camera.position.copy(cameraLocations[current][0]);
+                        camera.lookAt(cameraTarget);
+                    }
+
+                    try {
+                        const newCameraTarget = cameraLocations[current][1];
+
+                        gsap.to(cameraTarget, {
+                            x: newCameraTarget.x,
+                            y: newCameraTarget.y,
+                            z: newCameraTarget.z,
+                            duration: 0.65,
+                            onUpdate() {
+                                camera.lookAt(cameraTarget)
+                            }
+                        });
+
+                        gsap.to(camera.position, {
+                            x: cameraLocations[current][0].x,
+                            y: cameraLocations[current][0].y,
+                            z: cameraLocations[current][0].z,
+                            duration: 0.65,
+                        });
+                    } catch (error) {
+                        gsap.killTweensOf(camera.position);
+                        gsap.killTweensOf(cameraTarget);
+                        cameraTarget = cameraLocations['Home'][1];
+                        camera.position.copy(cameraLocations['Home'][0]);
+                        camera.lookAt(cameraTarget);
+                    }
+                }, [backgroundNumber]);
+            }
+
+            const labLighting = useMemo(() => {
+                if (backgroundNumber == 2) {
+                    return (
+                        <>
+                            <ambientLight intensity={0.2} color={'#B6FFEC'} />
+                            <directionalLight position={[5, 10, 5]} intensity={0.7} color={'#B6FFEC'} />
+                            <pointLight position={[0.3, 1.4, 0.4]} intensity={3} distance={3.5} decay={1} color={'#fcf6b3'} />
+                            <spotLight
+                                ref={spotlightRef}
+                                position={[0.3, 1.4, 0.4]}
+                                intensity={5}
+                                distance={5}
+                                castShadow={true}
+                                angle={Math.PI / 3}
+                                penumbra={1}
+                                decay={0.01}
+                                color={'#fcf6b3'}
+                            />
+                        </>
+                    );
+                } else return null;
+            }, [])
+
+            const PostProcessingEffects = () => {
+                if (backgroundNumber == 2) {
+                    const composer = useMemo(() => {
+                        const composer = new FXC(gl,
+                            {
+                                multisampling: 0
+                            });
+
+                        // Postprocessing effects
+                        const bloomEffect = new BloomEffect({ luminanceThreshold: 0.05, luminanceSmoothing: 0.5, intensity: 3.5 });
+                        const vignetteEffect = new VignetteEffect({ offset: 0.15, darkness: 0.83, eskil: false, blendFunction: BlendFunction.NORMAL });
+                        const noiseEffect = new NoiseEffect({ premultiply: true, blendFunction: BlendFunction.ADD });
+
+                        // Instantiate EffectPass
+                        const effectPass = new EffectPass(camera, noiseEffect, vignetteEffect, bloomEffect);
+                        effectPass.renderToScreen = true;
+
+                        // Add passes
+                        composer.addPass(new RenderPass(scene, camera));
+                        composer.addPass(effectPass);
+
+                        return composer;
+                    }, []);
+
+                    useEffect(() => {
+                        return () => { composer.dispose() }
+                    }, [composer]);
+                    useFrame((_state, delta) => {
+                        composer.render(delta);
+                    }, 1);
+                }
+                return null;
+            };
+
+            return (
+                <>
+                    <Suspense fallback={<span>Loading scene...</span>}>
+                        {labLighting}
+                        <primitive object={spotlightTargetRef.current} position={[0.5, -5, 6]} visible={backgroundNumber == 2} />
+                        <primitive object={futureGadgetLab.scene} visible={backgroundNumber == 2} />
+                        <PostProcessingEffects />
+                    </Suspense>
+                </>
+            );
+        }
+
+        return (
+            <div className='flex page-padding w-full h-full absolute -z-50'>
+                <Canvas camera={{ fov: 85, near: 0.001, far: 20, position: [0, 1, 0] }} >
+                    {/* NOTE: Add conditional rendering soon. */}
                     <Blank />
-                    <Apartment />
+                    <LabRoom />
                     <Lab />
 
-                Conditionally renders now.
-                 */}
-                
-                {backgroundNumber === 0 && <Blank />}
-                {backgroundNumber === 1 && <Apartment />}
-                {backgroundNumber === 2 && <Lab />}
-                {/* <Stats /> */}
-            </Canvas>
-        </div>
-    )
+                    {/* <Stats /> */}
+                </Canvas>
+            </div>
+        )
 
-}, (prev, next) => {
-    return prev.backgroundNumber == next.backgroundNumber && next.backgroundNumber == 1;
-});
+    }, (prev, next) => {
+        return prev.backgroundNumber == next.backgroundNumber && next.backgroundNumber == 1;
+    });

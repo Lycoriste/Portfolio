@@ -28,6 +28,9 @@ export const ProjectTemplate: React.FC<Template> = ({ projectName }) => {
         //     imgURL = '/img/projectimg/rbxwebserverproject.png';
         //     break;
         // }
+        case 'anime-similarity-search': {
+            
+        }
         case 'portfolio': {
             title = 'Portfolio(s)';
             github = 'https://github.com/Lycoriste/Portfolio';
