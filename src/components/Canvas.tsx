@@ -27,8 +27,8 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
 
     // Preload model
     // const cyberpunkApartment = useLoader(GLTFLoader, "/models/apt/scene.gltf");
-    const labroom = useLoader(GLTFLoader, "/models/lab_room.glb")
-    const futureGadgetLab = useLoader(GLTFLoader, "/models/lab_2k.glb");
+    const labroom = useLoader(GLTFLoader, "/models/lab_room.glb");
+    const futureGadgetLab = useLoader(GLTFLoader, "/models/lab_1k.glb");
 
     // Background 1
     // Blank background for those who don't want distracting content
