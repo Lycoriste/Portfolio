@@ -26,8 +26,14 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
     const prevBGN = usePrevious(backgroundNumber);
 
     // Preload model
+<<<<<<< Updated upstream
     const cyberpunkApartment = useLoader(GLTFLoader, "/models/apt/scene.gltf")
     const futureGadgetLab = useLoader(GLTFLoader, "/models/lab/scene.gltf"); // Unoptimized model for background 3
+=======
+    // const cyberpunkApartment = useLoader(GLTFLoader, "/models/apt/scene.gltf");
+    const labroom = useLoader(GLTFLoader, "/models/lab_room.glb")
+    const futureGadgetLab = useLoader(GLTFLoader, "/models/lab_2k.glb");
+>>>>>>> Stashed changes
 
     // BG1
     const Blank = () => {
@@ -46,6 +52,7 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
         );
     }
 
+    /*
     const Apartment = () => {
         const { scene, camera, gl } = useThree();
 
@@ -186,6 +193,7 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
             </Suspense>
         );
     }
+    */
 
     // BG3
     const Lab = () => {
