@@ -15,7 +15,7 @@ export const AboutPage: React.FC<AboutProps> = ({ current }) => {
                 <br />
                 <br />
 
-                This site is a work in progress. I'm not actively learning web development at the moment... so this site will be laggy for a while.
+                This site is a work in progress, as all portfolio sites should be. Report any bugs at lycoriste@proton.me.
             </span>
         </div>
     )

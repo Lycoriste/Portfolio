@@ -8,6 +8,7 @@ export const ContactPage: React.FC<AboutProps> = ({ current }) => {
             <span id='contact-body'>
                 <span id='contact-header'>Contact</span>
                 steventeng03@gmail.com <br />
+                lycoriste@proton.me <br />
                 nhteng@ucsd.edu <br />
                 <br />
                 <a href='https://github.com/Lycoriste/' className='hover:text-gray-300'>https://github.com/Lycoriste</a>
