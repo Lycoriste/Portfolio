@@ -30,7 +30,7 @@ export const ProjectTemplate: React.FC<Template> = ({ projectName }) => {
         case 'anime-similarity-search': {
             title = 'Anime Similarity Search';
             github = 'https://github.com/Lycoriste/AnimeSimilaritySearch';
-            description = "Finds similar anime based on descriptions and reviews using sentence transformers. \n Devpost: https://devpost.com/software/anime-similarity-search";
+            description = "A project for DataHacks 2025 @ UCSD - built in under 24 hours. Finds similar anime based on descriptions and reviews, scraped using AniList's GraphQL API, using embeddings generated sentence transformers (multilingual-e5-instruct) to compare cosine similarity. \n Devpost: https://devpost.com/software/anime-similarity-search";
             imgURL = 'https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/003/364/289/datas/original.png';
             deployment = 'https://github.com/Lycoriste/AnimeSimilaritySearch';
             break;
