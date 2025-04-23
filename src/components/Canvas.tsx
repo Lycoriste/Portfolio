@@ -26,20 +26,9 @@ export const Background: React.FC<BackgroundProps> = React.memo(({ backgroundNum
     const prevBGN = usePrevious(backgroundNumber);
 
     // Preload model
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-    const cyberpunkApartment = useLoader(GLTFLoader, "/models/apt/scene.gltf")
-    const futureGadgetLab = useLoader(GLTFLoader, "/models/lab/scene.gltf"); // Unoptimized model for background 3
-=======
     // const cyberpunkApartment = useLoader(GLTFLoader, "/models/apt/scene.gltf");
     const labroom = useLoader(GLTFLoader, "/models/lab_room.glb")
     const futureGadgetLab = useLoader(GLTFLoader, "/models/lab_2k.glb");
->>>>>>> Stashed changes
-=======
-    const cyberpunkApartment = useLoader(GLTFLoader, "/models/apt/scene.gltf");
-    const labroom = useLoader(GLTFLoader, "/models/lab_room.glb")
-    const futureGadgetLab = useLoader(GLTFLoader, "/models/lab_2k.glb");
->>>>>>> 9212d50d8d124c9cd3d23d551abed5c852400637
 
     // Background 1
     // Blank background for those who don't want distracting content
