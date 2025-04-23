@@ -15,8 +15,7 @@ export const ProjectTemplate: React.FC<Template> = ({ projectName }) => {
         case 'chrome-extension-project': {
             title = 'AI Powered Chrome Extension';
             github = 'https://github.com/cnrbd/chrome_extension';
-            description =
-                "This extension was made with the goal of addressing transparency in our food's nutritional information. Made using a RAG pipeline to prompt OpenAI's GPT model using information about food recipes gathered by a webscraper.";
+            description = "This extension was made with the goal of addressing transparency in our food's nutritional information. Made using a RAG pipeline to prompt OpenAI's GPT model using information about food recipes gathered by a webscraper.";
             imgURL = 'https://lh3.googleusercontent.com/XprMjci9p4F2xblIzActM6IxPF6_UN-BJEUf1PByI5NZI3nHX-X0SoQQCM6p9vkJxKbnXds-2UUq4W8FHJRDZcyIPqI=s1280-w1280-h800';
             deployment = 'https://chromewebstore.google.com/detail/calocal/ilofgkmdaajnkbbgogakoodnojpfnogk?authuser=0&hl=en;'
             break;
@@ -29,15 +28,10 @@ export const ProjectTemplate: React.FC<Template> = ({ projectName }) => {
         //     break;
         // }
         case 'anime-similarity-search': {
-            
-        }
-        case 'portfolio': {
-            title = 'Portfolio(s)';
-            github = 'https://github.com/Lycoriste/Portfolio';
-            description = "Image of my original site above. This site is still buggy and I'm currently optimizing the site so I apologize for the lag.\n\n3D models used:\n'Cyberpunk Apartment' (https://skfb.ly/oz7SP) by Jiaxing is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).\n\n'Steins;Gate - Future Gadget Lab'(https://skfb.ly/6Z9vX) by Theory.OAD is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).";
-            imgURL = '/img/projectimg/oldportfolio.png'
-            deployment = 'www.lycoriste.me'
-            break;
+            title = 'Anime Similarity Search';
+            github = 'https://github.com/Lycoriste/AnimeSimilaritySearch';
+            description = "Finds similar anime based on descriptions and reviews using sentence transformers.\nDevpost: https://devpost.com/software/anime-similarity-search"
+            imgURL = 'https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/003/364/289/datas/original.png'
         }
         default: {
             break;
