@@ -15,7 +15,7 @@ import { ContactPage } from './components/tabs/ContactPage';
 import { Analytics } from "@vercel/analytics/react"
 
 function App() {
-  const [currentBackground, setBackground] = useState(1);
+  const [currentBackground, setBackground] = useState(2);
   const [currentSection, setCurrentSection] = useState('Home');
 
   return (
