@@ -4,8 +4,8 @@ import { BlendFunction, EffectComposer as FXC, EffectPass, RenderPass, NoiseEffe
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
 import gsap from "gsap";
 import * as THREE from 'three';
-import { useTexture } from "@react-three/drei";
-import { Environment } from "@react-three/drei";
+// import { useTexture } from "@react-three/drei";
+// import { Environment } from "@react-three/drei";
 // import { Stats } from "@react-three/drei";
 
 type BackgroundProps = {
